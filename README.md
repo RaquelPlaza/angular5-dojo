@@ -29,6 +29,18 @@ ng serve
 
 You can see the newly create site on http://localhost:4200/
 
+### Add ons
+
+For this dojo we are going to use other dependencies that will make the project more interesting. 
+
+For styling and forms we will use Material Design https://material.google.com/. We'll install Angular Material 
+
+https://material.angular.io
+
+```
+npm install --save @angular/material @angular/cdk
+```
+
 ## Running the tests
 
 Explain how to run the automated tests for this system
