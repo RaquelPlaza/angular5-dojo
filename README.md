@@ -48,31 +48,31 @@ If you've not used bootstrap before you're in for a treat! Bootstrap is a nice l
 
 Firstly let’s use npm/yarn to grab the files. There are major differences between 3 and 4 so make sure you have version 4.
 
-...
+```
 npm install bootstrap
 yarn add bootstrap@4
-...
+```
 
 Following that command you will find a reference to bootstrap in the projects package.json file under "dependencies". You will also find the Bootstrap files in the node_modules folder. Unfortunately bootstrap does another reference to get off the ground. In the .angular-cli.json under scripts add in     
 
-... 
+```
 "../node_modules/bootstrap/dist/css/bootstrap.min.css"
-....
+```
 
 Congrats bootstrap styling can now be applied across the project. Now styling is present lets enable bootstraps animations, unfortunalty Bootstrap relies on Jquery for them. Howbever we can get away with jquery-slim. Once again use npm or yarn to pull the packages.
 
-...
+```
 npm install jquery-slim
 yarn add jquery-slim
-...
+```
 
 You can follow the steps through again to see where files have been added but there are now a couple of references to add to .angular-cli.json again. Under scripts add the following.
 
-...
+```
 "../node_modules/jquery/dist/jquery.slim.min.js",
 "../node_modules/bootstrap/js/dist/util.js",
 "../node_modules/bootstrap/js/dist/collapse.js"
-...
+```
 
 Basic animations have now been added. For more information on bootstrap version 4 https://getbootstrap.com/docs/4.0/getting-started/introduction/
 
