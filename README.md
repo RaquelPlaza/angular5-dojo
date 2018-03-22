@@ -17,11 +17,11 @@ To run this project you will need to have the following installed:
 
 Angular command line interface (cli) is exactly what it says on the tin, a cli that will speed up the creation of multiple angular components. To install through command prompt type
 
-...
+```
 npm install -g @angular/cli 
 OR 
 yarn global add @angular/cli
-...
+```
 
 ### Installing
 
