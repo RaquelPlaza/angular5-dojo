@@ -1,4 +1,4 @@
-# angular5-dojo
+﻿# angular5-dojo
 A tutorial to get started with Angular 5 and explore its possibilities to put together front end applications
 
 ## Getting Started
@@ -76,7 +76,51 @@ Finally add these references under scripts in the .angular-cli.json file
 "../node_modules/bootstrap/js/dist/collapse.js"
 ```
 
-Basic animations have now been added. For more information on bootstrap version 4 https://getbootstrap.com/docs/4.0/getting-started/introduction/
+Basic animations have now been added. We won’t by directly using these but you will see how bootstrap uses them for dynamic purposes through the Dojo. For more information on bootstrap version 4 https://getbootstrap.com/docs/4.0/getting-started/introduction/
+
+## Components
+
+Angular is completely component based, we can use them for full pages or view items that will be used across multiple pages complying with DRY principles. They generally consist of 4 items.
+
+• A Component.ts file which is the angular structure file
+• A Component.html for what is displayed, .ts binds to this.
+• A Component.css or .sass for the html styling
+• A Component.spec.ts for test configuration
+
+Now we don’t want to create all four files every time we need a new component, that’s going to become tedious pretty fast so say hello to the cli. Type into the console window…
+
+```
+ng g c components/new-plan –dry-run
+```
+
+You should see the following created
+
+```
+  create src/app/components/new-plan/new-plan.component.html (28 bytes)
+  create src/app/components/new-plan/new-plan.component.spec.ts (643 b)
+  create src/app/components/new-plan/new-plan.component.ts (280 bytes)
+  create src/app/components/new-plan/new-plan.component.css (0 bytes)
+  update src/app/app.module.ts (1597 bytes) 
+```
+
+Nice right! By default the cli will create a folder in src/app with the new files and automatically references it in app.module (we shall look into modules later), so let’s break down the cli instruction.
+
+```
+ng - angularcli
+g - generate me 
+c – a “C”omponent
+components/new-plan – called new-plan in a directory called components
+--dry-run – but only simulate it
+```
+
+The syntax is the same for all the angular items that we will create! So we’ve run the command and we’re happy that the component will be created correctly so let’s run the command without the --dry-run flag to actually create the files.
+
+For the purpose of the Dojo we also want another two components called my-plans and my-tags. Have a go at creating them and familiarise yourself with what is created in the files.
+
+## Routing
+
+ -- Next section
+
 
 ## Running the tests
 
