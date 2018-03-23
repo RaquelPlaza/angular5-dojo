@@ -1,8 +1,0 @@
-li {
-  list-style-type: none;
-  padding: 1em;
-}
-
-li.active {
-  background-color: aquamarine;
-}

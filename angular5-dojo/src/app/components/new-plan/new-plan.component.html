@@ -1,60 +1,38 @@
-<div>
-  <form (ngSubmit)="onSubmit(form)" #form="ngForm">
-  <mat-form-field class="form-field">
-    <input
-      matInput
-      placeholder="Name"
-      name="name"
-      ngModel
-      required
-      #name="ngModel">
-    <mat-error *ngIf="!name.valid">
-      Name is <strong>required</strong>
-    </mat-error>
-  </mat-form-field>
-  <mat-form-field class="form-field">
-    <input
-      matInput
-      placeholder="Description"
-      name="description"
-      ngModel
-      required
-      #description="ngModel">
-    <mat-error *ngIf="!description.valid">
-      Description is <strong>required</strong>
-    </mat-error>
-  </mat-form-field>
-  <mat-form-field class="form-field">
-    <input
-      matInput
-      [matDatepicker]="picker"
-      placeholder="Choose a date"
-      name="date"
-      ngModel
-      required
-      #date="ngModel">
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-    <mat-error *ngIf="!date.valid">
-      Date is <strong>required</strong>
-    </mat-error>
-  </mat-form-field>
-  <mat-form-field class="form-field">
-    <input
-      matInput
-      placeholder="Location"
-      name="location"
-      ngModel
-      required
-      #location="ngModel">
-    <mat-error *ngIf="!location.valid">
-      Location is <strong>required</strong>
-    </mat-error>
-  </mat-form-field>
-    <button
-      mat-button
-      type="submit"
-      class="form-button"
-      [disabled]="!form.valid">Add Plan</button>
-  </form>
-</div>
+<form (submit)="onSubmit(form)" #form="ngForm">
+
+  <div class="form-group">
+    <label for="name">
+      <b>Name</b>
+    </label>
+    <input id="name" type="text" class="form-control" placeholder="" name="name" required [(ngModel)]="plan.name" />
+  </div>
+
+  <div class="form-group">
+    <label for="description">
+      <b>Description</b>
+    </label>
+    <input id="description" type="text" class="form-control" placeholder="" name="description" required [(ngModel)]="plan.description"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="date">
+      <b>Date</b>
+    </label>
+    <input id="date" type="text" class="form-control" placeholder="" name="date" required [(ngModel)]="plan.date" />
+  </div>
+
+  <div class="form-group">
+    <label for="location">
+      <b>Location</b>
+    </label>
+    <input id="location" type="text" class="form-control" placeholder="" name="location" required [(ngModel)]="plan.location"
+    />
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <button type="submit" class="btn btn-success btn-block" [disabled]="!form.valid">Add Plan</button>
+    </div>
+  </div>
+</form>
