@@ -82,10 +82,10 @@ Basic animations have now been added. We won’t by directly using these but you
 
 Angular is completely component based, we can use them for full pages or view items that will be used across multiple pages complying with DRY principles. They generally consist of 4 items.
 
-• A Component.ts file which is the angular structure file
-• A Component.html for what is displayed, .ts binds to this.
-• A Component.css or .sass for the html styling
-• A Component.spec.ts for test configuration
+* A Component.ts file which is the angular structure file.
+* A Component.html for what is displayed, .ts binds to this.
+* A Component.css or .sass for the html styling
+* A Component.spec.ts for test configuration
 
 Now we don’t want to create all four files every time we need a new component, that’s going to become tedious pretty fast so say hello to the cli. Type into the console window…
 
@@ -93,7 +93,7 @@ Now we don’t want to create all four files every time we need a new component,
 ng g c components/new-plan –dry-run
 ```
 
-You should see the following created
+You should see the following created.
 
 ```
   create src/app/components/new-plan/new-plan.component.html (28 bytes)
@@ -198,11 +198,11 @@ You’ve now created your first module! We won’t be focusing much more on modu
 
 ## Routing
 
-###Routing configuration
+### Routing configuration
 
 We shall now consider the three components added earlier as “pages” and to access them we need to set up routes to them. 
 
-Head to app.module.ts and in the inputs add* in…
+Head to app.module.ts and in the inputs add** in…
 
 ```
 RouterModule.forRoot(appRoutes, {useHash : false})
@@ -221,11 +221,11 @@ const appRoutes: Routes = [
 
 We have now configured our components to routes! If we go to localhost:4200/my-plan we would access the MyPlanComponent and so on. It should also be noted that providing a blank path like the first item in the array will act as the home page so localhost:4200 will now go directly to the NewPlanComponent.
 
-Now you may be thinking this is all nice but what if my module has a lot of components, won’t this become messy. The answer is yes and it is why its good practise to separate out your routing into its own module!** You can try this now if you want or after the dojo.
+Now you may be thinking this is all nice but what if my module has a lot of components, won’t this become messy. The answer is yes and it is why its good practise to separate out your routing into its own module!*** You can try this now if you want or after the dojo.
 
-* If you were in a sub module and wanted to add in another level of routing, you would use .forChild() instead of .forRoot().
+** If you were in a sub module and wanted to add in another level of routing, you would use .forChild() instead of .forRoot().
 
-** the Angular CLI provides more magic here, if you know you will be using routing straight from the start you can add the -–routing to instantly create you a routing module for app.module.ts
+*** the Angular CLI provides more magic here, if you know you will be using routing straight from the start you can add the -–routing to instantly create you a routing module for app.module.ts
 
 ```
 ng new angular5-dojo –routing
@@ -272,6 +272,7 @@ Secondly the router-outlet component <router-outlet></router-outlet>. When we cl
     // My plans component.html will be inserted here
   </router-outlet>
 </div>
+```
 
 With that you should now have a snazzy navigation menu with the routing working. For further information on what bootstraps doing at this point, just ask your dojo master.
 
