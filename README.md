@@ -82,10 +82,10 @@ Basic animations have now been added. We won’t by directly using these but you
 
 Angular is completely component based, we can use them for full pages or view items that will be used across multiple pages complying with DRY principles. They generally consist of 4 items.
 
-• A Component.ts file which is the angular structure file
-• A Component.html for what is displayed, .ts binds to this.
-• A Component.css or .sass for the html styling
-• A Component.spec.ts for test configuration
+* A Component.ts file which is the angular structure file.
+* A Component.html for what is displayed, .ts binds to this.
+* A Component.css or .sass for the html styling
+* A Component.spec.ts for test configuration
 
 Now we don’t want to create all four files every time we need a new component, that’s going to become tedious pretty fast so say hello to the cli. Type into the console window…
 
@@ -93,7 +93,7 @@ Now we don’t want to create all four files every time we need a new component,
 ng g c components/new-plan –dry-run
 ```
 
-You should see the following created
+You should see the following created.
 
 ```
   create src/app/components/new-plan/new-plan.component.html (28 bytes)
@@ -117,9 +117,181 @@ The syntax is the same for all the angular items that we will create! So we’ve
 
 For the purpose of the Dojo we also want another two components called my-plans and my-tags. Have a go at creating them and familiarise yourself with what is created in the files.
 
+## Modules 
+
+### Modules Explained
+
+A module is essentially a packet of references that imports modules to be used by its components and exports its components to other modules. By default every angular app will have an app.module.ts file which is the primary module where everything else is referenced. Large sections of the app can then be broken down into child modules.
+
+Lets have a look at our entry point module app.module.ts.
+
+Firstly at the top of the file you will see a list of imports, anything that will be referenced within the module needs to be included here.
+
+```
+import { AppComponent } from './app.component';
+import { NewPlanComponent } from './components/new-plan/new-plan.component';
+import { MyPlansComponent } from './components/my-plans/my-plans.component';
+import { MyTagsComponent } from './components/my-tags/my-tags.component';
+```
+Under declarations you should be able to see AppComponent and the three previous components created. If not you should add them here now. This essential says this component is apart of this module.
+
+```
+declarations: [
+    AppComponent,
+    NewPlanComponent,
+    MyPlansComponent,
+    MyTagsComponent
+  ],
+```
+
+The second section is imports, any module or component that is required by one of the declared components needs to be added here. Some of the common project imports used in most projects can be seen below. We will explain more about them later.
+
+```
+imports: [
+    BrowserModule,
+    FormsModule,
+    ….
+```
+There are also two other sections, Providers and Exports which we shall explore later but are generally not used by the app.module.
+
+### Create a module
+
+Let’s create a module for components that are generally shared across multiple modules. We shall create one using the angular cli using…
+
+```
+ng g m shared –dry-run
+```
+
+Notice all we’ve done is changed “C”omponent to “M”odule. Once again once you’re happy that will do what’s expected run it without the --dry-run flag.
+
+We have our shared module woop! Now let’s add in some common modules and introduce the exports section. Exports make any component / module contained available to any other module that references this shared module. 
+
+```
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+
+@NgModule({
+  imports: [
+    CommonModule
+  ],
+  exports: [    
+    CommonModule,
+    FormsModule,
+    BrowserModule
+  ],
+  declarations: []
+})
+export class SharedModule { }
+```
+
+Exports make any component / module contained available to any other module that references this shared module. This means if we have a component declared in a module but not exported, its private! 
+
+Now we have a shared module let’s use it. Head back to app.module.ts and remove the three modules above and replace them with SharedModule. Intelisense should then prompt you to add the import line. If not add...
+
+```
+import { SharedModule } from './shared/shared.module';
+```
+
+You’ve now created your first module! We won’t be focusing much more on modules through this dojo but they are worth exploring after this session.
+
 ## Routing
 
- -- Next section
+### Routing configuration
+
+We shall now consider the three components added earlier as “pages” and to access them we need to set up routes to them. 
+
+Head to app.module.ts and in the inputs add** in…
+
+```
+RouterModule.forRoot(appRoutes, {useHash : false})
+``` 
+
+You should get an intelisense notification to import the router module too. Then under the imports at the top of the file add in a routes array…
+
+```
+const appRoutes: Routes = [
+  { path: '', component: NewPlanComponent},
+  { path: 'new-plan', component: NewPlanComponent },
+  { path: 'my-plans', component: MyPlansComponent },
+  { path: 'my-tags', component: MyTagsComponent },
+];
+```
+
+We have now configured our components to routes! If we go to localhost:4200/my-plan we would access the MyPlanComponent and so on. It should also be noted that providing a blank path like the first item in the array will act as the home page so localhost:4200 will now go directly to the NewPlanComponent.
+
+Now you may be thinking this is all nice but what if my module has a lot of components, won’t this become messy. The answer is yes and it is why its good practise to separate out your routing into its own module!*** You can try this now if you want or after the dojo.
+
+** If you were in a sub module and wanted to add in another level of routing, you would use .forChild() instead of .forRoot().
+
+*** the Angular CLI provides more magic here, if you know you will be using routing straight from the start you can add the -–routing to instantly create you a routing module for app.module.ts
+
+```
+ng new angular5-dojo –routing
+```
+
+### Using Routes
+
+Now we have our routes let’s create a navigation menu using bootstrap. Add the following code into app.component.html. It’s simply the demo navigation menu off the bootstrap examples page… 
+
+```
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+  <a class="navbar-brand" href="#"></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbar">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/my-plans']">My Plans</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/my-tags']">My Tags</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/new-plan']">New Plan</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div id="page-container" class="container">
+  <router-outlet></router-outlet>
+</div>
+```
+
+There are two key parts to take note of in this code, firstly the [routerLink]="['/my-plans']" binding. The routerLink binding essentially sets our a tags href parameter to http://localhost:4200/my-plans. Therefore redirecting to it on a click.
+
+Secondly the router-outlet component <router-outlet></router-outlet>. When we click on the link the component will be loaded inside these brackets since were dealing with a Single Page Application.
+
+```
+<div id="page-container" class="container">
+  <router-outlet>
+    // My plans component.html will be inserted here
+  </router-outlet>
+</div>
+```
+
+With that you should now have a snazzy navigation menu with the routing working. For further information on what bootstraps doing at this point, just ask your dojo master.
+
+## Bindings
+
+### Handlebars
+
+### Brackets
+
+## Reactive Forms
+
+
+## Services
+
+### Create a service
+
+### HTTPGET
+
+### HTTPPost
 
 
 ## Running the tests
@@ -172,5 +344,6 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 * Hat tip to anyone who's code was used
 * Inspiration
 * etc
+
 
 
