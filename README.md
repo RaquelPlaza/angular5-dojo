@@ -165,6 +165,7 @@ ng g m shared –dry-run
 Notice all we’ve done is changed “C”omponent to “M”odule. Once again once you’re happy that will do what’s expected run it without the --dry-run flag.
 
 We have our shared module woop! Now let’s add in some common modules and introduce the exports section. Exports make any component / module contained available to any other module that references this shared module. 
+
 ```
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -191,6 +192,7 @@ Now we have a shared module let’s use it. Head back to app.module.ts and remov
 
 ```
 import { SharedModule } from './shared/shared.module';
+```
 
 You’ve now created your first module! We won’t be focusing much more on modules through this dojo but they are worth exploring after this session.
 
@@ -271,7 +273,24 @@ Secondly the router-outlet component <router-outlet></router-outlet>. When we cl
   </router-outlet>
 </div>
 
-With that you should now have a snazzy navigation menu with routing working. For further information on what bootstraps doing at this point, just ask your dojo master.
+With that you should now have a snazzy navigation menu with the routing working. For further information on what bootstraps doing at this point, just ask your dojo master.
+
+## Bindings
+
+### Handlebars
+
+### Brackets
+
+## Reactive Forms
+
+
+## Services
+
+### Create a service
+
+### HTTPGET
+
+### HTTPPost
 
 
 ## Running the tests
