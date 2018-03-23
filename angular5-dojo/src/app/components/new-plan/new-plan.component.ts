@@ -1,15 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component} from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-new-plan',
   templateUrl: './new-plan.component.html',
   styleUrls: ['./new-plan.component.css']
 })
-export class NewPlanComponent implements OnInit {
+export class NewPlanComponent {
+  plan = {
+    name: '',
+    description: '',
+    date: '',
+    location: ''
+  };
 
-  constructor() { }
+  onSubmit(form: NgForm) {
 
-  ngOnInit() {
+    this.plan.name = form.value.name;
+    console.log(this.plan.name);
+    form.reset();
   }
 
 }
