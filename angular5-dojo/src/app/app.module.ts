@@ -13,23 +13,21 @@ import { RouterModule, Routes } from '@angular/router';
 
 
 import { AppComponent } from './app.component';
-import { NavigationComponent } from './shared/navigation/navigation.component';
 import { NewPlanComponent } from './components/new-plan/new-plan.component';
 import { MyPlansComponent } from './components/my-plans/my-plans.component';
 import { MyTagsComponent } from './components/my-tags/my-tags.component';
 
 const appRoutes: Routes = [
   { path: '', component: NewPlanComponent},
-  { path: 'newplan', component: NewPlanComponent },
-  { path: 'myplans', component: MyPlansComponent },
-  { path: 'mytags', component: MyTagsComponent },
+  { path: 'new-plan', component: NewPlanComponent },
+  { path: 'my-plans', component: MyPlansComponent },
+  { path: 'my-tags', component: MyTagsComponent },
 ];
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavigationComponent,
     NewPlanComponent,
     MyPlansComponent,
     MyTagsComponent
