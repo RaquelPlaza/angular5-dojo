@@ -1,38 +1,76 @@
-<form (submit)="onSubmit(form)" #form="ngForm">
+<form [formGroup]="newPlanForm" (ngSubmit)="onSubmit()">
 
   <div class="form-group">
     <label for="name">
       <b>Name</b>
     </label>
-    <input id="name" type="text" class="form-control" placeholder="" name="name" required [(ngModel)]="plan.name" />
+    <input 
+    id="name" 
+    type="text" 
+    formControlName="name"
+    class="form-control" 
+    placeholder="" 
+    name="name"  
+    />
+    <span 
+    *ngIf="!newPlanForm.get('name').valid && newPlanForm.get('name').touched"
+    class="error">Please enter a plan name</span>
   </div>
 
   <div class="form-group">
     <label for="description">
       <b>Description</b>
     </label>
-    <input id="description" type="text" class="form-control" placeholder="" name="description" required [(ngModel)]="plan.description"
+    <input 
+    id="description" 
+    type="text" 
+    formControlName="description"
+    class="form-control" 
+    placeholder="" 
+    name="description" 
     />
+    <span 
+    *ngIf="!newPlanForm.get('description').valid && newPlanForm.get('description').touched"
+    class="error">Please enter a plan description</span>
   </div>
 
   <div class="form-group">
     <label for="date">
       <b>Date</b>
     </label>
-    <input id="date" type="text" class="form-control" placeholder="" name="date" required [(ngModel)]="plan.date" />
+    <input 
+    id="date" 
+    type="text"
+    formControlName="date" 
+    class="form-control" 
+    placeholder="" 
+    name="date" 
+    />
+    <span 
+    *ngIf="!newPlanForm.get('date').valid && newPlanForm.get('date').touched"
+    class="error">Please enter a plan date</span>
   </div>
 
   <div class="form-group">
     <label for="location">
       <b>Location</b>
     </label>
-    <input id="location" type="text" class="form-control" placeholder="" name="location" required [(ngModel)]="plan.location"
+    <input 
+    id="location" 
+    type="text" 
+    formControlName="location"
+    class="form-control" 
+    placeholder="" 
+    name="location" 
     />
+    <span 
+    *ngIf="!newPlanForm.get('location').valid && newPlanForm.get('location').touched"
+    class="error">Please enter a plan location</span>
   </div>
 
   <div class="row">
     <div class="col-12">
-      <button type="submit" class="btn btn-success btn-block" [disabled]="!form.valid">Add Plan</button>
+      <button type="submit" class="btn btn-success btn-block" >Add Plan</button>
     </div>
   </div>
 </form>
