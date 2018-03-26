@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MyPlanService } from './my-plan.service';
 
 @Component({
   selector: 'app-my-plans',
@@ -7,9 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MyPlansComponent implements OnInit {
 
-  constructor() { }
+  myPlans: any[];
+
+  constructor(private _myPlansService : MyPlanService) { }
 
   ngOnInit() {
+    this._myPlansService.getPlans()
+      .subscribe(
+        response => {
+          this.myPlans = response;
+        },
+        error => {
+          console.log("MyPlans getPlans: FAILED")
+        }
+      )
   }
 
 }

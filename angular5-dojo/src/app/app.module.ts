@@ -8,12 +8,15 @@ import { MatSidenavModule,
           MatDatepickerModule
 } from '@angular/material';
 import { RouterModule, Routes } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpModule }      from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { NewPlanComponent } from './components/new-plan/new-plan.component';
 import { MyPlansComponent } from './components/my-plans/my-plans.component';
 import { MyTagsComponent } from './components/my-tags/my-tags.component';
 import { SharedModule } from './shared/shared.module';
+import { MyPlanService } from './components/my-plans/my-plan.service';
 
 const appRoutes: Routes = [
   { path: '', component: NewPlanComponent},
@@ -39,9 +42,11 @@ const appRoutes: Routes = [
     MatInputModule,
     MatNativeDateModule,
     MatDatepickerModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    HttpClientModule,
+    HttpModule
   ],
-  providers: [],
+  providers: [MyPlanService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
