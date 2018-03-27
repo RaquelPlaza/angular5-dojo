@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @Component({
   selector: 'app-new-plan',
@@ -8,6 +9,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class NewPlanComponent implements OnInit {
   newPlanForm: FormGroup;
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     this.newPlanForm = new FormGroup({
@@ -16,6 +18,14 @@ export class NewPlanComponent implements OnInit {
       'date': new FormControl(null, Validators.required),
       'location': new FormControl(null, Validators.required)
     });
+
+    // this.newPlanForm = this.formBuilder.group({
+    //   name: null,
+    //   description: null,
+    //   date: null,
+    //   location: null
+    // });
+
   }
 
   onSubmit() {
