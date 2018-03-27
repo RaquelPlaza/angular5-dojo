@@ -333,6 +333,11 @@ We can also check for the validity of the entire form at the bottom, above the s
     class="error">Please enter valid data</span>
 
 ```
+### Adding a date picker component
+
+We want to use a date picker for the date field, we will install a single module, the ngx-bootstrap datepicker following the example here: https://ngx-bootstrap-latest.surge.sh/#/datepicker#reactive-forms
+
+To install ngx-bootstrap follow the instructions here: https://valor-software.com/ngx-bootstrap/#/getting-started
 
 ## Services
 
