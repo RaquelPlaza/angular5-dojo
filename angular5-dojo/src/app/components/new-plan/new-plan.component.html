@@ -41,10 +41,11 @@
     <input 
     id="date" 
     type="text"
+    bsDatepicker
     formControlName="date" 
     class="form-control" 
     placeholder="" 
-    name="date" 
+    name="date"
     />
     <span 
     *ngIf="!newPlanForm.get('date').valid && newPlanForm.get('date').touched"
