@@ -1,24 +1,25 @@
-import { Component} from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-new-plan',
   templateUrl: './new-plan.component.html',
   styleUrls: ['./new-plan.component.css']
 })
-export class NewPlanComponent {
-  plan = {
-    name: '',
-    description: '',
-    date: '',
-    location: ''
-  };
+export class NewPlanComponent implements OnInit {
+  newPlanForm: FormGroup;
 
-  onSubmit(form: NgForm) {
+  ngOnInit() {
+    this.newPlanForm = new FormGroup({
+      'name': new FormControl(null, Validators.required),
+      'description': new FormControl(null, Validators.required),
+      'date': new FormControl(null, Validators.required),
+      'location': new FormControl(null, Validators.required)
+    });
+  }
 
-    this.plan.name = form.value.name;
-    console.log(this.plan.name);
-    form.reset();
+  onSubmit() {
+    console.log(this.newPlanForm);
   }
 
 }

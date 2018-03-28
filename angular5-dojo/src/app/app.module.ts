@@ -1,12 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatSidenavModule,
-          MatButtonModule,
-          MatFormFieldModule,
-          MatInputModule,
-          MatNativeDateModule,
-          MatDatepickerModule
-} from '@angular/material';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
@@ -33,12 +26,6 @@ const appRoutes: Routes = [
   imports: [
     SharedModule,
     BrowserAnimationsModule,
-    MatSidenavModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatNativeDateModule,
-    MatDatepickerModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [],

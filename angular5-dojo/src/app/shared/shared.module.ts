@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
@@ -10,6 +10,7 @@ import { BrowserModule } from '@angular/platform-browser';
   exports: [    
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     BrowserModule
   ],
   declarations: []

@@ -284,6 +284,60 @@ With that you should now have a snazzy navigation menu with the routing working.
 
 ## Reactive Forms
 
+Let's create the form, we are going to use Reactive forms, in shared.module.ts we have to import ReactiveFormsModule from @angular/forms.
+Now we will be working on the New Plan component files. In the template file, let's add a form with 4 fields: name, description, date and location. We need to add the formControlName property to each field, for example, for the name we'll add: 
+
+```
+formControlName="name"
+
+```
+For the reactive form to work, we have to define a Form Group. Inside the form tag well add that:
+
+```
+<form [formGroup]="newPlanForm">
+
+```
+Now we are going to create the reactive form. In new-plan.component.ts we define:
+
+```
+newPlanForm : FormGroup
+
+ngOnInit() {
+    this.newPlanForm = new FormGroup({
+      'name': new FormControl(null),
+      'description': new FormControl(null),
+      'date': new FormControl(null),
+      'location': new FormControl(null)
+    });
+
+```
+Now we have a reactive form in our component. Let's add some basic validation. To add validation to a ractive form, we have to define a validator. Import Validators from @angular/forms and in the form object we'll add the required validator for each field:
+
+```
+'name': new FormControl(null, Validators.required),
+
+```
+Our fields are now required, let's add a conditional message to each field:
+
+```
+<span 
+    *ngIf="!newPlanForm.get('name').valid && newPlanForm.get('name').touched"
+    class="error">Please enter a plan name</span>
+
+```
+We can also check for the validity of the entire form at the bottom, above the submit button:
+
+```
+<span 
+    *ngIf="!newPlanForm.valid && newPlanForm.touched"
+    class="error">Please enter valid data</span>
+
+```
+### Adding a date picker component
+
+We want to use a date picker for the date field, we will install a single module, the ngx-bootstrap datepicker following the example here: https://ngx-bootstrap-latest.surge.sh/#/datepicker#reactive-forms
+
+To install ngx-bootstrap follow the instructions here: https://valor-software.com/ngx-bootstrap/#/getting-started
 
 ## Services
 
