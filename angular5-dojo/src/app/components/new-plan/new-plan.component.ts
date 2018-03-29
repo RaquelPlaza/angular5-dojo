@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+
+import { Observable } from 'rxjs/Observable';
+import { NewPlanService } from './new-plan.service';
 
 @Component({
   selector: 'app-new-plan',
@@ -9,7 +11,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 })
 export class NewPlanComponent implements OnInit {
   newPlanForm: FormGroup;
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private newPlanService: NewPlanService) {}
 
   ngOnInit() {
     this.newPlanForm = new FormGroup({
@@ -19,17 +21,21 @@ export class NewPlanComponent implements OnInit {
       'location': new FormControl(null, Validators.required)
     });
 
-    // this.newPlanForm = this.formBuilder.group({
-    //   name: null,
-    //   description: null,
-    //   date: null,
-    //   location: null
-    // });
-
   }
 
   onSubmit() {
-    console.log(this.newPlanForm);
+    this.newPlanService.postPlan(this.newPlanForm.value)
+      .subscribe(
+        data => {
+          return true;
+        },
+        error => {
+          console.error('Error!');
+          return Observable.throw(error);
+        }
+      );
+
+    console.log('this is submitted');
   }
 
 }
