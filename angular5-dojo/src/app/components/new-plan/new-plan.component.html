@@ -4,15 +4,15 @@
     <label for="name">
       <b>Name</b>
     </label>
-    <input 
-    id="name" 
-    type="text" 
+    <input
+    id="name"
+    type="text"
     formControlName="name"
-    class="form-control" 
-    placeholder="" 
-    name="name"  
+    class="form-control"
+    placeholder=""
+    name="name"
     />
-    <span 
+    <span
     *ngIf="!newPlanForm.get('name').valid && newPlanForm.get('name').touched"
     class="error">Please enter a plan name</span>
   </div>
@@ -21,57 +21,86 @@
     <label for="description">
       <b>Description</b>
     </label>
-    <input 
-    id="description" 
-    type="text" 
+    <input
+    id="description"
+    type="text"
     formControlName="description"
-    class="form-control" 
-    placeholder="" 
-    name="description" 
+    class="form-control"
+    placeholder=""
+    name="description"
     />
-    <span 
+    <span
     *ngIf="!newPlanForm.get('description').valid && newPlanForm.get('description').touched"
     class="error">Please enter a plan description</span>
   </div>
 
   <div class="form-group">
-    <label for="date">
-      <b>Date</b>
-    </label>
-    <input 
-    id="date" 
+  <label for="date">
+    <b>Date</b>
+  </label>
+  <input
+    id="date"
     type="text"
     bsDatepicker
-    formControlName="date" 
-    class="form-control" 
-    placeholder="" 
+    formControlName="date"
+    class="form-control"
+    placeholder=""
     name="date"
-    />
-    <span 
+  />
+  <span
     *ngIf="!newPlanForm.get('date').valid && newPlanForm.get('date').touched"
     class="error">Please enter a plan date</span>
+  </div>
+
+  <div class="form-group" ngClass="row">
+    <div class="col-md-6">
+    <label for="startingTime">
+      <b>Starting time</b>
+    </label>
+    <timepicker
+      id="startingTime"
+      formControlName="startingTime"
+      name="startingTime"
+      ></timepicker>
+    <span
+      *ngIf="!newPlanForm.get('startingTime').valid && newPlanForm.get('startingTime').touched"
+      class="error">Please enter a plan date</span>
+    </div>
+    <div class="col-md-6">
+    <label for="finishingTime">
+      <b>Finishing time</b>
+    </label>
+    <timepicker
+      id="finishingTime"
+      formControlName="finishingTime"
+      name="finishingTime"
+    ></timepicker>
+    <span
+      *ngIf="!newPlanForm.get('finishingTime').valid && newPlanForm.get('finishingTime').touched"
+      class="error">Please enter a plan date</span>
+    </div>
   </div>
 
   <div class="form-group">
     <label for="location">
       <b>Location</b>
     </label>
-    <input 
-    id="location" 
-    type="text" 
+    <input
+    id="location"
+    type="text"
     formControlName="location"
-    class="form-control" 
-    placeholder="" 
-    name="location" 
+    class="form-control"
+    placeholder=""
+    name="location"
     />
-    <span 
+    <span
     *ngIf="!newPlanForm.get('location').valid && newPlanForm.get('location').touched"
     class="error">Please enter a plan location</span>
   </div>
 
   <div class="row">
     <div class="col-12">
-      <span 
+      <span
     *ngIf="!newPlanForm.valid && newPlanForm.touched"
     class="error">Please enter valid data</span>
       <button type="submit" class="btn btn-success btn-block" >Add Plan</button>

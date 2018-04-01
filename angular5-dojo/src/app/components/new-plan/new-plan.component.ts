@@ -18,9 +18,31 @@ export class NewPlanComponent implements OnInit {
       'name': new FormControl(null, Validators.required),
       'description': new FormControl(null, Validators.required),
       'date': new FormControl(null, Validators.required),
+      'startingTime': new FormControl(null, Validators.required),
+      'finishingTime': new FormControl(null, Validators.required),
       'location': new FormControl(null, Validators.required)
     });
 
+  }
+
+  resolvePlan() {
+
+    const planStart = new Date(this.newPlanForm.value.date.setHours(
+                                this.newPlanForm.value.startingTime.getHours(),
+                                this.newPlanForm.value.startingTime.getMinutes(),
+                                this.newPlanForm.value.startingTime.getSeconds()));
+    const planFinish = new Date(this.newPlanForm.value.date.setHours(
+                                this.newPlanForm.value.finishingTime.getHours(),
+                                this.newPlanForm.value.finishingTime.getMinutes(),
+                                this.newPlanForm.value.finishingTime.getSeconds()));
+
+    return ({
+    'name': this.newPlanForm.value.name,
+    'description': this.newPlanForm.value.description,
+    'starting': planStart,
+    'finishing': planFinish,
+    'location': this.newPlanForm.value.location
+  });
   }
 
   onSubmit() {
@@ -35,7 +57,7 @@ export class NewPlanComponent implements OnInit {
         }
       );
 
-    console.log('this is submitted');
+    console.log(this.resolvePlan());
   }
 
 }
