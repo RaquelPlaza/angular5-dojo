@@ -1,15 +1,10 @@
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatSidenavModule,
-          MatButtonModule,
-          MatFormFieldModule,
-          MatInputModule,
-          MatNativeDateModule,
-          MatDatepickerModule
-} from '@angular/material';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule }      from '@angular/http';
+
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 import { AppComponent } from './app.component';
 import { NewPlanComponent } from './components/new-plan/new-plan.component';
@@ -36,15 +31,10 @@ const appRoutes: Routes = [
   imports: [
     SharedModule,
     BrowserAnimationsModule,
-    MatSidenavModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatNativeDateModule,
-    MatDatepickerModule,
-    RouterModule.forRoot(appRoutes),
     HttpClientModule,
     HttpModule
+    RouterModule.forRoot(appRoutes), 
+    BsDatepickerModule.forRoot()
   ],
   providers: [MyPlanService],
   bootstrap: [AppComponent]
