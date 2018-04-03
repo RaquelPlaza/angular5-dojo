@@ -12,6 +12,7 @@ import { NewPlanComponent } from './components/new-plan/new-plan.component';
 import { MyPlansComponent } from './components/my-plans/my-plans.component';
 import { MyTagsComponent } from './components/my-tags/my-tags.component';
 import { SharedModule } from './shared/shared.module';
+import { MyPlanService } from './components/new-plan/new-plan.service';
 import { NewPlanService } from './components/new-plan/new-plan.service';
 
 const appRoutes: Routes = [
@@ -38,7 +39,7 @@ const appRoutes: Routes = [
     BsDatepickerModule.forRoot(),
     TimepickerModule.forRoot()
   ],
-  providers: [NewPlanService],
+  providers: [MyPlanService, NewPlanService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
