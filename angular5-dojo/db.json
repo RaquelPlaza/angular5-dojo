@@ -1,0 +1,6 @@
+{
+  "plans": [
+    { "id": 1, "name": "Adventure Time", "description": "Lets watch Adventure Time", "date" : "03/04/2018", "location" : "Home", "category" : "TV" },
+    { "id": 2, "name": "Walk the Dog", "description": "Chores again", "date" : "03/04/2018", "location" : "Upton Court", "category" : "Chores" }
+  ]
+}

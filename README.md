@@ -284,66 +284,112 @@ With that you should now have a snazzy navigation menu with the routing working.
 
 ## Reactive Forms
 
-Let's create the form, we are going to use Reactive forms, in shared.module.ts we have to import ReactiveFormsModule from @angular/forms.
-Now we will be working on the New Plan component files. In the template file, let's add a form with 4 fields: name, description, date and location. We need to add the formControlName property to each field, for example, for the name we'll add: 
-
-```
-formControlName="name"
-
-```
-For the reactive form to work, we have to define a Form Group. Inside the form tag well add that:
-
-```
-<form [formGroup]="newPlanForm">
-
-```
-Now we are going to create the reactive form. In new-plan.component.ts we define:
-
-```
-newPlanForm : FormGroup
-
-ngOnInit() {
-    this.newPlanForm = new FormGroup({
-      'name': new FormControl(null),
-      'description': new FormControl(null),
-      'date': new FormControl(null),
-      'location': new FormControl(null)
-    });
-
-```
-Now we have a reactive form in our component. Let's add some basic validation. To add validation to a ractive form, we have to define a validator. Import Validators from @angular/forms and in the form object we'll add the required validator for each field:
-
-```
-'name': new FormControl(null, Validators.required),
-
-```
-Our fields are now required, let's add a conditional message to each field:
-
-```
-<span 
-    *ngIf="!newPlanForm.get('name').valid && newPlanForm.get('name').touched"
-    class="error">Please enter a plan name</span>
-
-```
-We can also check for the validity of the entire form at the bottom, above the submit button:
-
-```
-<span 
-    *ngIf="!newPlanForm.valid && newPlanForm.touched"
-    class="error">Please enter valid data</span>
-
-```
-### Adding a date picker component
-
-We want to use a date picker for the date field, we will install a single module, the ngx-bootstrap datepicker following the example here: https://ngx-bootstrap-latest.surge.sh/#/datepicker#reactive-forms
-
-To install ngx-bootstrap follow the instructions here: https://valor-software.com/ngx-bootstrap/#/getting-started
 
 ## Services
 
+Services in angular are where we manage our API calls. For the purpose of this Dojo we shall be using JSON Server, a mock API tool so we don’t have to create an API. Firstly though let’s create our service.
+
 ### Create a service
 
+Using the cli and the syntax from the previous sections, add a service to app/components/ called my-plan. 
+
+We also need to add the service to our module. Pop into app.module.ts and add a reference to MyPlanService under the final declaration type that we will cover, Providers.
+
+A service declared in the providers array is accessible globally, therefore if we had another module, we can access the service without defining it in that module. There is one exception to this but I’ll direct you to the reason why and where at in further resources at the end.
+
+Okay on to the service file, firstly we need to declare the components we require
+
+```
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/throw';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/do';
+```
+
+The HTTP items are self explanatory but he RxJS stands for Reactive Extensions for Javascript and allows for the simplification of asynchronous calls through observables and subscriptions. It’s a fairly large library so to reduce the size of our application, we’re only including the parts we need as opposed to the full library.
+
+Since were using HttpClient ect.. The module needs to know that were using them and they exist within the HTTPModules so Import the following in your app.component.
+
+```
+import { HttpClientModule } from '@angular/common/http';
+import { HttpModule }      from '@angular/http';
+```
+
+Next we need to inject the HTTP Client into the service through the constructor, include the following.
+
+constructor(private _http: HttpClient) {
+
 ### HTTPGET
+
+Then let’s add in a function to head off to an API and grab some plans
+
+```
+getPlans(): Observable<any> {
+  return this._http.get<any>("http://localhost:3000/plans")
+    .do(data => {
+      // Pre Process Data
+    })
+    .catch(this.handleError);
+}
+
+private handleError(err: HttpErrorResponse) {
+  console.log(err.message);
+  return Observable.throw(err.message);
+}
+```
+
+Notice the reference to “any” at the moment. If you don’t know what format the data will be in at first, use any and then map to a class or interface at a later stage before finalising your service. 
+
+We can now set up a subscription to this function in any component that has access to the service so let’s do that. Open my-plans.component and inject the service through the constructor. 
+
+```
+(private _myPlansService : MyPlanService){
+```
+
+Then we will make a call to get the plans during the components initialisation through a subscription. Within the onInit lifecycle hook add the following.
+
+```
+ngOnInit() {
+    this._myPlansService.getPlans()
+      .subscribe(
+        response => {
+          this.myPlans = response;
+        },
+        error => {
+          console.log("MyPlans getPlans: FAILED");
+        }
+      )
+  }
+````
+
+What will now happen is as the component initialises, an asynchronous call is made to the service which in turn makes a call to the API. It will continue to process through the component until a responses is passed back to the service and then back on to the component. If it’s valid the data will be passed into the response call back or if an error has occurred it will be passed into the error call-back.  
+
+To view what is returned lets quickly throw a for loop into the .html file to see the results.
+
+```
+  <div class="row "*ngFor="let plan of myPlans">
+    {{plan.id}}
+  </div>
+```
+
+### JSON-Server
+
+We’re almost there, finally we need to install and start-up our API mocker json-server.js. In the terminal enter
+
+```
+npm install -g json-server
+Or
+Yarn add global json-server
+```
+
+Done, grab the db.json provided from ********* file and place it in your projects route directory. To start it open a new terminal window and enter 
+
+```
+json-server --watch db.json
+```
+  
+And lastly return to our angular terminal and start the application with the usual yarn start command. If you’ve completed this section correctly you should see the Id’s of our items coming through on the my-plans page.
 
 ### HTTPPost
 
