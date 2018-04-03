@@ -100,10 +100,7 @@
 
   <div class="row">
     <div class="col-12">
-      <span
-    *ngIf="!newPlanForm.valid && newPlanForm.touched"
-    class="error">Please enter valid data</span>
-      <button type="submit" class="btn btn-success btn-block" >Add Plan</button>
+      <button type="submit" class="btn btn-success btn-block" [disabled]="!newPlanForm.valid">Add Plan</button>
     </div>
   </div>
 </form>

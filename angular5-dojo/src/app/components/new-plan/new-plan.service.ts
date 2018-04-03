@@ -10,11 +10,13 @@ export class NewPlanService {
 
   constructor(private _http: HttpClient ) { }
 
+  apiRoot = 'http://localhost:3000/';
+
   postPlan(plan): Observable<any> {
     const body = JSON.stringify(plan);
-    return this._http.post<any>('http://localhost:3000/plans', body, {
-      headers: new HttpHeaders().set('Content-Type', 'application/json')
-    });
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const options = {headers: headers};
+    return this._http.post<any>(this.apiRoot + 'plans', body, options);
   }
 
 

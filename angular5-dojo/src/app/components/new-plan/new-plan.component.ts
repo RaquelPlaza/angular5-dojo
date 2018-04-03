@@ -46,7 +46,7 @@ export class NewPlanComponent implements OnInit {
   }
 
   onSubmit() {
-    this.newPlanService.postPlan(this.newPlanForm.value)
+    this.newPlanService.postPlan(this.resolvePlan())
       .subscribe(
         data => {
           return true;
@@ -56,8 +56,6 @@ export class NewPlanComponent implements OnInit {
           return Observable.throw(error);
         }
       );
-
-    console.log(this.resolvePlan());
   }
 
 }
