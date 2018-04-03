@@ -1,5 +1,9 @@
 <form [formGroup]="newPlanForm" (ngSubmit)="onSubmit()">
 
+  <alert type="success" dismissOnTimeout="3000" *ngIf="submitted">
+    <strong>Yes!</strong> We have a plan.
+  </alert>
+
   <div class="form-group">
     <label for="name">
       <b>Name</b>
@@ -79,6 +83,22 @@
       *ngIf="!newPlanForm.get('finishingTime').valid && newPlanForm.get('finishingTime').touched"
       class="error">Please enter a plan date</span>
     </div>
+  </div>
+
+  <div class="form-group">
+    <label for="category">
+      <b>Category</b>
+    </label>
+    <select
+      id="category"
+      type="text"
+      formControlName="category"
+      class="form-control"
+      placeholder=""
+      name="category"
+    >
+    <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.body }}</option>
+  </select>
   </div>
 
   <div class="form-group">

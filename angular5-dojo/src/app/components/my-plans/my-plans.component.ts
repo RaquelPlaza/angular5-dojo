@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MyPlanService } from './my-plan.service';
+import { PlansService} from '../../shared/services/plans.service';
 
 @Component({
   selector: 'app-my-plans',
@@ -10,7 +10,7 @@ export class MyPlansComponent implements OnInit {
 
   myPlans: any[];
 
-  constructor(private _myPlansService : MyPlanService) { }
+  constructor(private _myPlansService : PlansService) { }
 
   ngOnInit() {
     this._myPlansService.getPlans()

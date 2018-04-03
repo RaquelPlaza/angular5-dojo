@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { Observable } from 'rxjs/Observable';
-import { NewPlanService } from './new-plan.service';
+import { PlansService} from '../../shared/services/plans.service';
 
 @Component({
   selector: 'app-new-plan',
@@ -11,7 +11,9 @@ import { NewPlanService } from './new-plan.service';
 })
 export class NewPlanComponent implements OnInit {
   newPlanForm: FormGroup;
-  constructor(private newPlanService: NewPlanService) {}
+  constructor(private newPlanService: PlansService) {}
+  categories: any[] = [];
+  submitted = false;
 
   ngOnInit() {
     this.newPlanForm = new FormGroup({
@@ -20,8 +22,20 @@ export class NewPlanComponent implements OnInit {
       'date': new FormControl(null, Validators.required),
       'startingTime': new FormControl(null, Validators.required),
       'finishingTime': new FormControl(null, Validators.required),
+      'category': new FormControl(null),
       'location': new FormControl(null, Validators.required)
     });
+
+    this.newPlanService.getCategories()
+      .subscribe(
+        data => {
+          this.categories = data;
+          return data;
+        },
+        error => {
+          return Observable.throw(error);
+        }
+      );
 
   }
 
@@ -41,14 +55,18 @@ export class NewPlanComponent implements OnInit {
     'description': this.newPlanForm.value.description,
     'starting': planStart,
     'finishing': planFinish,
+    'category': this.newPlanForm.value.category,
     'location': this.newPlanForm.value.location
   });
   }
 
   onSubmit() {
+
     this.newPlanService.postPlan(this.resolvePlan())
       .subscribe(
         data => {
+          this.submitted = true;
+          this.newPlanForm.reset();
           return true;
         },
         error => {
