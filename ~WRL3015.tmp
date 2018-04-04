@@ -393,65 +393,6 @@ And lastly return to our angular terminal and start the application with the usu
 
 ### HTTPPost
 
-### Dynamic Configuration
-
-So far we’ve been hard coding our URLs into our services. What happens when we release the application and localhost is no longer our API location? Bring in the configuration files.
-
-Firstly let’s create some JSON files for our configurations, create a folder under src called config followed by three new files called…
-
-```
-config.development.json
-config.release.json
-env.json
-```
-
-With this type of set up we can have different configurations for our development and production environments and can switch between them by changing a single parameter in the env.json file.
-
-In env.json add the following…
-
-```
-{
-  "env": "development"
-}
-```
-
-Then in config.development.json add…
-```
-{
-  "apiRoot": "http://localhost:3000",
-}
-```
-
-This should also be mimicked in the config.production.json file to. Next we need to allow access to the new folder. In the angular-cli.json file under assets add in “config” to the array.
-
-For the next step grab the provided app.config.ts file provided and place it under the app directory. Have a look through to see what it’s doing in terms of loading the env.json file and then how it goes on to load up the parameters defined in either of the config files.
-
-Almost there, we now need to add the references to load the config on the loading of the application in the app.module.ts. Open it up and add in the reference to the app.config file we just added, a reference to the APP_INITIALIZER and a quick function to load the config.
-
-```
-import { APP_INITIALIZER } from '@angular/core';
-import { AppConfig }       from './app.config';
-
-function initConfig(config: AppConfig){
-  return () => config.load() 
- }
-```
-
-The app requires the APP_INITIALIZER item for the configuration just to let a provider know some work has to be done to set up a provider. Finally we can the AppConfig class and configure the loading in the provider array by adding the items shown below.
-
-```
-AppConfig,
-    { provide: APP_INITIALIZER, useFactory: initConfig, deps: [AppConfig], multi: true }
-```
-
-And with that we can now use our configurations anywhere in the app as if it was a service. Just add a reference in the constructor of a component that requires it, in our case our plans service and pull through the configuration by parameter name
-
-```
-constructor( private config : AppConfig){
-      this.apiRoot = config.getConfig('apiRoot');
-}
-```
-
 
 ## Running the tests
 

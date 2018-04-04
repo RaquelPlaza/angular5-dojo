@@ -14,6 +14,7 @@ import { BrowserModule } from '@angular/platform-browser';
     ReactiveFormsModule,
     BrowserModule
   ],
+  providers: [],
   declarations: []
 })
 export class SharedModule { }
