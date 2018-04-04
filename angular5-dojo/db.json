@@ -1,16 +1,6 @@
 {
   "plans": [
     {
-      "id": 1,
-      "title": "json-server",
-      "author": "typicode"
-    },
-    {
-      "id": 2,
-      "title": "json-server 2",
-      "author": "typicode"
-    },
-    {
       "name": "Caipirinhas",
       "description": "Celebration",
       "starting": "2018-04-13T10:00:00.000Z",

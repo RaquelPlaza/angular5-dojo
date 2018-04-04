@@ -4,13 +4,16 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
+import { AppConfig } from "../../app.config";
 
 @Injectable()
 export class PlansService {
 
-  apiRoot = 'http://localhost:3000/';
+  apiRoot = '';
 
-  constructor(private _http : HttpClient) { }
+  constructor(private _http : HttpClient, private config : AppConfig ) { 
+    this.apiRoot = config.getConfig('apiRoot');
+  }
 
   getPlans(): Observable<any> {
     return this._http.get<any>(this.apiRoot + 'plans')

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
@@ -14,7 +14,12 @@ import { MyPlansComponent } from './components/my-plans/my-plans.component';
 import { MyTagsComponent } from './components/my-tags/my-tags.component';
 import { SharedModule } from './shared/shared.module';
 import { PlansService } from './shared/services/plans.service';
+import { AppConfig } from './app.config';
 
+function initConfig(config: AppConfig){
+  return () => config.load() 
+ }
+ 
 const appRoutes: Routes = [
   { path: '', component: NewPlanComponent},
   { path: 'new-plan', component: NewPlanComponent },
@@ -40,7 +45,9 @@ const appRoutes: Routes = [
     TimepickerModule.forRoot(),
     AlertModule.forRoot()
   ],
-  providers: [PlansService],
+  providers: [PlansService,
+    AppConfig,
+    { provide: APP_INITIALIZER, useFactory: initConfig, deps: [AppConfig], multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
