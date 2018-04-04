@@ -31,9 +31,9 @@ const appRoutes: Routes = [
   imports: [
     SharedModule,
     BrowserAnimationsModule,
-    HttpClientModule,
-    HttpModule
+    HttpModule,
     RouterModule.forRoot(appRoutes), 
+    HttpClientModule,
     BsDatepickerModule.forRoot()
   ],
   providers: [MyPlanService],
