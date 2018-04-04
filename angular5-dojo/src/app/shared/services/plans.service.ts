@@ -5,6 +5,7 @@ import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
 import { AppConfig } from "../../app.config";
+import { IPlan } from "../models/plan";
 
 @Injectable()
 export class PlansService {
@@ -15,10 +16,10 @@ export class PlansService {
     this.apiRoot = config.getConfig('apiRoot');
   }
 
-  getPlans(): Observable<any> {
+  getPlans(): Observable<IPlan[]> {
     return this._http.get<any>(this.apiRoot + 'plans')
       .do(data => {
-        //TODO What?
+        console.log(data);
       })
       .catch(this.handleError);
   }

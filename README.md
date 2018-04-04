@@ -291,7 +291,7 @@ Services in angular are where we manage our API calls. For the purpose of this D
 
 ### Create a service
 
-Using the cli and the syntax from the previous sections, add a service to app/components/ called my-plan. 
+Using the cli and the syntax from the previous sections, add a service to app/shared/ called plans. 
 
 We also need to add the service to our module. Pop into app.module.ts and add a reference to MyPlanService under the final declaration type that we will cover, Providers.
 
@@ -392,6 +392,63 @@ json-server --watch db.json
 And lastly return to our angular terminal and start the application with the usual yarn start command. If you’ve completed this section correctly you should see the Id’s of our items coming through on the my-plans page.
 
 ### HTTPPost
+
+Posting works with promises in exactly the same way as the Get call except we have to pass in some headers and a body. Lets create a function to post a plan back to the json server.
+```
+postPlan(plan:any): Observable<any> {
+	const body = JSON.stringify(plan);
+	const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+	const options = {headers: headers};
+	return this._http.post<any>(this.apiRoot + 'plans', body, options)
+	  .do(data => {
+	  })
+	  .catch(this.handleError);
+}
+```
+
+So firstly we stringify the passed object to the funtion which will act as our body. We then specify what headers to pass back, in this case wer're just passing back the content-type. Finally we wrap the header in an options object, you can explore what else you can do here at a later date. Finally we send of the post call with the data and options.
+
+We can now use the post option within the new-plan component we created earlier, head back and in the onSubmit function add the following subscription
+```
+this.newPlanService.postPlan(this.resolvePlan())
+  .subscribe(
+	data => {
+	  this.submitted = true;
+	  this.newPlanForm.reset();
+	  return true;
+	},
+	error => {
+	  console.error('Error!');
+	  return Observable.throw(error);
+	}
+  );
+```
+
+Hey presto our form can now submit data correctly. Ultimatly up untill this point we've been a bit naughty, we've been using the any type everywhere which completly removes the power of typescript. If we know what data is being returned from our calls we should define the responses as a class or interface.
+
+###Interfaces
+
+Lets create an Interface throught the angular cli, since a plan could be used across the product lets create it in our shared directory under models.
+```
+ng g i shared/models/plan 
+```
+
+As a first pass we're going to define are response type as strings and numbers
+```
+export interface IPlan {
+    name: string;
+    description: string,
+    starting: string,
+    finishing: string,
+    location: string,
+    id: number
+}
+```
+
+Then to use this interface lets replace the returned type of getPlans to an Observable<IPlan[]>, lets run the app and head to the My Plans page to see what happens.
+
+
+
 
 ### Dynamic Configuration
 
