@@ -31,11 +31,7 @@ const appRoutes: Routes = [
   imports: [
     SharedModule,
     BrowserAnimationsModule,
-<<<<<<< HEAD
-=======
-    HttpClientModule,
-    HttpModule
->>>>>>> develop
+    HttpModule,
     RouterModule.forRoot(appRoutes), 
     HttpClientModule,
     BsDatepickerModule.forRoot()
