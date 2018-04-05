@@ -291,7 +291,7 @@ Services in angular are where we manage our API calls. For the purpose of this D
 
 ### Create a service
 
-Using the cli and the syntax from the previous sections, add a service to app/components/ called my-plan. 
+Using the cli and the syntax from the previous sections, add a service to app/shared/ called plans. 
 
 We also need to add the service to our module. Pop into app.module.ts and add a reference to MyPlanService under the final declaration type that we will cover, Providers.
 
@@ -392,6 +392,124 @@ json-server --watch db.json
 And lastly return to our angular terminal and start the application with the usual yarn start command. If you’ve completed this section correctly you should see the Id’s of our items coming through on the my-plans page.
 
 ### HTTPPost
+
+Posting works with promises in exactly the same way as the Get call except we have to pass in some headers and a body. Lets create a function to post a plan back to the json server.
+```
+postPlan(plan:any): Observable<any> {
+	const body = JSON.stringify(plan);
+	const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+	const options = {headers: headers};
+	return this._http.post<any>(this.apiRoot + 'plans', body, options)
+	  .do(data => {
+	  })
+	  .catch(this.handleError);
+}
+```
+
+So firstly we stringify the passed object to the funtion which will act as our body. We then specify what headers to pass back, in this case wer're just passing back the content-type. Finally we wrap the header in an options object, you can explore what else you can do here at a later date. Finally we send of the post call with the data and options.
+
+We can now use the post option within the new-plan component we created earlier, head back and in the onSubmit function add the following subscription
+```
+this.newPlanService.postPlan(this.resolvePlan())
+  .subscribe(
+	data => {
+	  this.submitted = true;
+	  this.newPlanForm.reset();
+	  return true;
+	},
+	error => {
+	  console.error('Error!');
+	  return Observable.throw(error);
+	}
+  );
+```
+
+Hey presto our form can now submit data correctly. Ultimatly up untill this point we've been a bit naughty, we've been using the any type everywhere which completly removes the power of typescript. If we know what data is being returned from our calls we should define the responses as a class or interface.
+
+###Interfaces
+
+Lets create an Interface throught the angular cli, since a plan could be used across the product lets create it in our shared directory under models.
+```
+ng g i shared/models/plan 
+```
+
+As a first pass we're going to define are response type as strings and numbers
+```
+export interface IPlan {
+    name: string;
+    description: string,
+    starting: string,
+    finishing: string,
+    location: string,
+    id: number
+}
+```
+
+Then to use this interface lets replace the returned type of getPlans to an Observable<IPlan[]> and variable myPlans in the my-plans component to IPlan[]. Lets run the app and head to the My Plans page to see what happens.
+
+All our data loads the so it's working the same so why bother? Well by defining are response types as interfaces we can get on the fly intellisense recomendations and compile time errors within the development environment. The typescript however compiles down to JS so it does not effect the running of the application. If we therefore define the interface anywhere in code, all fields must be declaired.  
+
+
+
+
+### Dynamic Configuration
+
+So far we’ve been hard coding our URLs into our services. What happens when we release the application and localhost is no longer our API location? Bring in the configuration files.
+
+Firstly let’s create some JSON files for our configurations, create a folder under src called config followed by three new files called…
+
+```
+config.development.json
+config.release.json
+env.json
+```
+
+With this type of set up we can have different configurations for our development and production environments and can switch between them by changing a single parameter in the env.json file.
+
+In env.json add the following…
+
+```
+{
+  "env": "development"
+}
+```
+
+Then in config.development.json add…
+```
+{
+  "apiRoot": "http://localhost:3000",
+}
+```
+
+This should also be mimicked in the config.production.json file to. Next we need to allow access to the new folder. In the angular-cli.json file under assets add in “config” to the array.
+
+For the next step grab the provided app.config.ts file provided and place it under the app directory. Have a look through to see what it’s doing in terms of loading the env.json file and then how it goes on to load up the parameters defined in either of the config files.
+
+Almost there, we now need to add the references to load the config on the loading of the application in the app.module.ts. Open it up and add in the reference to the app.config file we just added, a reference to the APP_INITIALIZER and a quick function to load the config.
+
+```
+import { APP_INITIALIZER } from '@angular/core';
+import { AppConfig }       from './app.config';
+
+function initConfig(config: AppConfig){
+  return () => config.load() 
+ }
+```
+
+The app requires the APP_INITIALIZER item for the configuration just to let a provider know some work has to be done to set up a provider. Finally we can the AppConfig class and configure the loading in the provider array by adding the items shown below.
+
+```
+AppConfig,
+    { provide: APP_INITIALIZER, useFactory: initConfig, deps: [AppConfig], multi: true }
+```
+
+And with that we can now use our configurations anywhere in the app as if it was a service. Just add a reference in the constructor of a component that requires it, in our case our plans service and pull through the configuration by parameter name
+
+```
+constructor( private config : AppConfig){
+      this.apiRoot = config.getConfig('apiRoot');
+}
+```
 
 
 ## Running the tests

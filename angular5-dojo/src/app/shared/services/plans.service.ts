@@ -5,6 +5,7 @@ import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
 import { AppConfig } from "../../app.config";
+import { IPlan, Plan } from "../models/plan";
 
 @Injectable()
 export class PlansService {
@@ -15,11 +16,23 @@ export class PlansService {
     this.apiRoot = config.getConfig('apiRoot');
   }
 
-  getPlans(): Observable<any> {
-    return this._http.get<any>(this.apiRoot + 'plans')
-      .do(data => {
-        //TODO What?
-      })
+  getPlans(): Observable<IPlan[]> {
+    return this._http.get<IPlan[]>(this.apiRoot + 'plans')
+      .do(data => {})
+      .map(results => {
+        return results.map(res => {
+          let result : IPlan;
+          result = {
+            name : res.name,
+            description: res.description,
+            starting: res.starting,
+            finishing: res.finishing,
+            location: res.location,
+            id: res.id
+          }
+          return result;
+        })
+       })
       .catch(this.handleError);
   }
 
