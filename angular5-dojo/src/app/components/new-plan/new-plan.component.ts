@@ -10,10 +10,14 @@ import { PlansService} from '../../shared/services/plans.service';
   styleUrls: ['./new-plan.component.css']
 })
 export class NewPlanComponent implements OnInit {
+  
   newPlanForm: FormGroup;
-  constructor(private newPlanService: PlansService) {}
   categories: any[] = [];
-  submitted = false;
+  submitted : boolean = false;
+  hasErrorOccurred : boolean = true;
+ 
+  constructor(private newPlanService: PlansService) {}
+ 
 
   ngOnInit() {
     this.newPlanForm = new FormGroup({
@@ -74,6 +78,10 @@ export class NewPlanComponent implements OnInit {
           return Observable.throw(error);
         }
       );
+  }
+
+  onErrorDismissed() {
+    this.hasErrorOccurred = false;
   }
 
 }

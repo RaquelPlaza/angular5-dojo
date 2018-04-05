@@ -393,6 +393,141 @@ And lastly return to our angular terminal and start the application with the usu
 
 ### HTTPPost
 
+### Components as Components
+
+So far we’ve looked at components in the context of pages, however, they are much more powerful than that. Let’s say we have a feature that needs to work in exactly the same way where ever it is used in our case an error notification. Then we don’t want to duplicate the html on every page. 
+
+Let’s create a new component called error-notification in the shared folder
+
+```
+ng g c shared/components/error-notification –m shared
+```
+
+Notice the new –m on the end, with this flag we can specfy what module to define a component in on its creation. Nice!
+
+Let’s head into the error-notification.html file and add a nice alert warning…
+
+```
+<div class="alert alert-danger">
+  An error has occurred
+</div>
+```
+
+Job done we now have a very quick error notification which will look and act in the same way where ever we use it. But how do we use it?
+
+Have a look in the error-notifications component.ts file, you should see that in the component declaration we have 
+
+```
+selector: 'app-error-notification',
+```
+
+This is essentially an ID to the component and with this id we can insert the component into any other component that has access to the component through…
+
+```
+<app-error-notification/>
+```   
+
+Let’s place this at the top of the new plans components html file and run the application to see what happens. You should see an alert bar at the top of the page, nice! You’ve just created you’re first insertable component. Of course there’s much more we can do with this. Different pages may require a different error message, let’s explore this next. 
+
+## Component Input
+
+Head to the error-notification.ts file and add the following  
+```
+export class ErrorNotificationComponent implements OnInit {
+       @Input() message : string = "";
+```
+
+The component now knows to expect a string called message to be passed in, or if it’s not then it defaults to an empty string. We can now bind the value into our html using handlebars.
+```
+<div class="alert alert-danger">
+  Error: {{message}}
+</div>
+```
+
+Finally we need to pass the input message into the component, we can bind this on each page that uses the component through its declaration.
+
+```
+<app-error-notification [message]="'An unknown error has occurred'"></app-error-notification>
+```
+
+We can now pass in custom messages to our component, nice!
+
+##Outputs
+
+Outputs in child components are a little more complex and require an EventEmitter, we can consider them to be callbacks. To pass an output value back to a top level component requires some bindings and use of the EventEmitters .emit function.
+
+Firstly add an output declaration under the existing input declaration.
+
+```
+@Output() dismissError : EventEmitter<boolean> = new EventEmitter<boolean>();
+```  
+
+For proof of concept we’re going to pass back a boolean value. We then need to create a function to call the emitter.
+
+```
+onDismissError(){
+  this.dismissError.emit(true);
+}
+```
+
+Let’s add a button within the components html file that binds to this function.
+
+```
+<div class="row">
+  <div class="col-8"></div>
+  <div class="col-4">
+    <button class="btn btn-primary btn-block" (click)="onDismissError()">Dismiss Error</button>
+  </div>
+</div>
+
+```
+
+At this point our component now has a functional output binder but we’ve not configured anywhere to use it yet. It should also be noted that the component will work without a top level binding so you can use it as you require it. For the next step we shall configure the new-plan page to bind to this callback.
+
+Firstly lets add a Boolean to monitor if an error has occurred within the new-plan component. For now it will be set to true to show our component.
+```
+hasErrorOccurred : boolean = true;
+```
+
+Secondly in the html file lets wrap our component in an if div based on this new variable, the plan is to hide the error once it’s dismissed.
+
+```
+<div *ngIf="hasErrorOccurred">
+  <app-error-notification [message]="'An unknown error has occurred'"></app-error-notification>
+</div>
+```
+
+Back to the .ts file, now we need to create the callback function, this will simply set hasErrorOccured to false if it is called.
+
+```
+onErrorDismissed() {
+  this.hasErrorOccurred = false;
+}
+```
+
+We can then bind this to our child component in the html file using () brackets.
+
+```
+(dismissError)="onErrorDismissed()"
+```
+
+We now have a working output callback, give the button a go.
+
+The final note to make on this is that the emitter can pass back object, we originally passed back a value of “true” but it’s currently not being used. We can easily configure the last two code snippets to work with the value.
+
+```
+(dismissError)="onErrorDismissed($event)"
+```
+And 
+
+```
+onErrorDismissed(result) {
+  this.hasErrorOccurred =!result;
+}
+
+With this knowledge you can go forward and make completely dynamic components ultimately reducing duplications and creating consistent site behaviour.
+
+
 ### Dynamic Configuration
 
 So far we’ve been hard coding our URLs into our services. What happens when we release the application and localhost is no longer our API location? Bring in the configuration files.
