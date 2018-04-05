@@ -367,9 +367,7 @@ Our form is created, however, nothing happens when we submit it because we have 
 
 ```
 onSubmit() {
-
 	console.log('Submitted');
-
   }
 
 ```
@@ -385,7 +383,82 @@ ngSubmit is a default Angular directive that will trigger when the form gets sub
 ### Adding bootstrap components
 
 We have a couple of fields that we could improve, date and starting and finishing time are a bit boring as input fields. Let’s make use of ngx-bootstrap https://valor-software.com/ngx-bootstrap/
+```
+npm install ngx-bootstrap --save
+OR
+yarn install ngx-bootstrap --save
+```
+We'll import a couple of components into our app.module file:
+```
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 
+```
+and add them to the imports array:
+```
+BsDatepickerModule.forRoot(),
+TimepickerModule.forRoot(),
+```
+The component are now available to be used in our new-plan component markup:
+```
+<input
+    id="date"
+    type="text"
+    bsDatepicker
+    formControlName="date"
+    class="form-control"
+    placeholder=""
+    name="date"
+  />
+```
+```
+<timepicker
+    id="startingTime"
+    formControlName="startingTime"
+    name="startingTime"
+  ></timepicker>
+```
+There is an extra component we'll be using. When the form gets submitted, we want to inform the user that their plan has been added to My Plans. We'll use an alert component for this.
+```
+import { AlertModule } from 'ngx-bootstrap/alert';
+```
+And add the markup above all form fields:
+```
+  <alert type="success" dismissOnTimeout="3000" *ngIf="submitted">
+    <strong>Yes!</strong> We have a plan.
+  </alert>
+```
+The *ngIf directive is checking for a property called "submitted". We have to set this up in our component and then make it true inside our onSubmmit method:
+```
+submitted = false;
+```
+
+```
+onSubmit() {
+   this.submitted = true;
+  }
+```
+
+You may have noticed a field in the form called "Category". This is not a simple input field, we'll have a dropdown selector here so we can pick one of the existing categories available in the API. The html markup will look like this:
+
+```
+<select
+      id="category"
+      type="text"
+      formControlName="category"
+      class="form-control"
+      placeholder=""
+      name="category"
+    >
+    <option *ngFor="let cat of categories" [value]="cat.name">{{ cat.name }}</option>
+  </select>
+
+```
+The *ngFor directive loops over an array of categories that will ultimately be provided by a service, meanwhile, we'll create an array in the component file:
+
+```
+categories: any[] = [];
+```
 
 ## Services
 
