@@ -459,6 +459,37 @@ The *ngFor directive loops over an array of categories that will ultimately be p
 ```
 categories: any[] = [];
 ```
+### Working out the bootstrap components output
+
+Bootstrap's timepicker returns a datetime format with today's date and the time selected, we need to tidy up the data we collect in the form before posting to the API. We'll create a method that compiles the date selected in the datepicker with the times selected for Starting and Finishing time, therefore, Starting and Finishing will contain timestamps with the selected date and times. We don't need to pass the Date output to the API anymore, as it will be contained within the time fields.
+
+In the component we'll create the following method:
+
+```
+resolvePlan() {
+
+    const planStart = new Date(this.newPlanForm.value.date.setHours(
+                                this.newPlanForm.value.startingTime.getHours(),
+                                this.newPlanForm.value.startingTime.getMinutes(),
+                                this.newPlanForm.value.startingTime.getSeconds()));
+    const planFinish = new Date(this.newPlanForm.value.date.setHours(
+                                this.newPlanForm.value.finishingTime.getHours(),
+                                this.newPlanForm.value.finishingTime.getMinutes(),
+                                this.newPlanForm.value.finishingTime.getSeconds()));
+
+    return ({
+    'name': this.newPlanForm.value.name,
+    'description': this.newPlanForm.value.description,
+    'starting': planStart,
+    'finishing': planFinish,
+    'category': this.newPlanForm.value.category,
+    'location': this.newPlanForm.value.location
+  });
+  }
+```
+And in out post service we'll pass this.resolvePlan().
+
+Time to get into Services!
 
 ## Services
 
