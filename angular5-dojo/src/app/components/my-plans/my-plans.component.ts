@@ -9,7 +9,7 @@ import { IPlan } from '../../shared/models/plan';
 })
 export class MyPlansComponent implements OnInit {
 
-  myPlans: IPlan [];
+  myPlans: IPlan[];
 
   constructor(private _myPlansService : PlansService) { }
 
