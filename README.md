@@ -284,6 +284,108 @@ With that you should now have a snazzy navigation menu with the routing working.
 
 ## Reactive Forms
 
+In the reactive approach, the form is created in the component, in Typescript and binded to the html markup for the form.
+
+To get started we need to import the ReactiveFormsModule, we'll add this to our shared.component.ts file:
+
+```
+import { ReactiveFormsModule } from '@angular/forms';
+
+```
+don't forget to add it to the exports array in the same file.
+
+Now we can look at our new-plan component. First we import FormGroup, FormControl and Validators from angular/forms:
+
+```
+
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+
+```
+
+We want the form to be created when we initialize the component, so we'll implement OnInit in our class:
+
+```
+export class NewPlanComponent implements OnInit {
+  newPlanForm: FormGroup;
+
+  ngOnInit() {
+    this.newPlanForm = new FormGroup({
+      'name': new FormControl(null, Validators.required),
+      'description': new FormControl(null, Validators.required),
+      'date': new FormControl(null, Validators.required),
+      'startingTime': new FormControl(null, Validators.required),
+      'finishingTime': new FormControl(null, Validators.required),
+      'category': new FormControl(null),
+      'location': new FormControl(null, Validators.required)
+    });
+
+```
+
+Here we have added some controls for each of the fields we want in the form and the will be referenced in the html code. For each form control we can pass some parameters, the first one is the initial value, the second parameter in this case is a validator. Validator.required will check that the form field contains a value.
+We have created a reactive form, however, we need to add the markup in our html file, so in new-plan.component.html we have to add the markup for each of the fields in the form. Here is an example of an input field in the form:
+
+```
+<form [formGroup]="newPlanForm">
+
+  <div class="form-group">
+    <label for="name">
+      <b>Name</b>
+    </label>
+    <input
+    id="name"
+    type="text"
+    formControlName="name"
+    class="form-control"
+    placeholder=""
+    name="name"
+    />
+    <span
+    *ngIf="!newPlanForm.get('name').valid && newPlanForm.get('name').touched"
+    class="error">Please enter a plan name</span>
+  </div>
+
+</form>
+
+```
+In this example we have synced the form and form field binding the formGroup directive [formGroup]="newPlanForm">
+And the name field using the formControlName=”name” directive
+Since we added a validator to the form in the component, let’s add a message here in case the form field is invalid. That is the <span> tag:
+*ngIf="!newPlanForm.get('name').valid && newPlanForm.get('name').touched"
+
+We can complete the form with a submit button:
+
+```
+<div class="row">
+    <div class="col-12">
+      <button type="submit" class="btn btn-success btn-block" [disabled]="!newPlanForm.valid">Add Plan</button>
+    </div>
+  </div>
+```
+The disabled directive is binding to the newPlanForm.valid property in order to disable the button if the form is not valid.
+
+Our form is created, however, nothing happens when we submit it because we have not binded it to a submit event. To see this working we are going to create a method in our component file:
+
+```
+onSubmit() {
+
+	console.log('Submitted');
+
+  }
+
+```
+and create the binding in the html form:
+
+```
+<form [formGroup]="newPlanForm" (ngSubmit)="onSubmit()">
+
+```
+
+ngSubmit is a default Angular directive that will trigger when the form gets submitted.
+
+### Adding bootstrap components
+
+We have a couple of fields that we could improve, date and starting and finishing time are a bit boring as input fields. Let’s make use of ngx-bootstrap https://valor-software.com/ngx-bootstrap/
+
 
 ## Services
 
