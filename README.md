@@ -278,9 +278,22 @@ With that you should now have a snazzy navigation menu with the routing working.
 
 ## Bindings
 
+Binding allows us to pass data from the component to the html elements.
+We need to be able to send data to the form in HTML Elements, Directives and in our own Components with custom properties and events.
+
 ### Handlebars
 
+We use handlebars binding in our new-plan template, for example, as we'll see when we build the form, in the categories dropdown options:
+```
+<option *ngFor="let cat of categories" [value]="cat.id">{{ cat.body }}</option>
+```
+
 ### Brackets
+
+In our application we will use bindings in several places, for example, in the new-plan component, we bind the formGroup property to our reactive form, and we bing to the ngSubmit event so send the values back to the component.
+```
+<form [formGroup]="newPlanForm" (ngSubmit)="onSubmit()">
+```
 
 ## Reactive Forms
 
@@ -578,6 +591,22 @@ To view what is returned lets quickly throw a for loop into the .html file to se
     {{plan.id}}
   </div>
 ```
+In our reactive form we set up a dropdown field that will display categories coming from an API endpoint and we need to create a method in our service to pull that information into our component, this is also a GET request, let's try creating this new method getCategories, very similar to getPlans but the end point will be /categories instead of /plans.
+
+Then in our new-plan component we add the following code, inside ngOnInit:
+```
+this.newPlanService.getCategories()
+      .subscribe(
+        data => {
+          this.categories = data;
+          return data;
+        },
+        error => {
+          return Observable.throw(error);
+        }
+      );
+```
+We are assining the object from our call to the categories array we declared previously. Now our dropdown has options coming from the API.
 
 ### JSON-Server
 
@@ -598,6 +627,42 @@ json-server --watch db.json
 And lastly return to our angular terminal and start the application with the usual yarn start command. If you’ve completed this section correctly you should see the Id’s of our items coming through on the my-plans page.
 
 ### HTTPPost
+
+We have a service that gets our existing plans from the API but, how do we add new plans into the backend? We have to use HTTPPost for that, in the same service document, we'll add another method that is going to handle the POST request:
+```
+postPlan(plan): Observable<any> {
+    const body = JSON.stringify(plan);
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const options = {headers: headers};
+    return this._http.post<any>("http://localhost:3000/plans", body, options)
+      .do(data => {
+        // do something
+      })
+      .catch(console.log("Ups, there was an error"));
+  }
+```
+Note: we need to add headers for our mock API to accept the request. For more information about the options HTTPPost accepts, please refer to the Angular documentation https://angular.io/guide/http
+
+Now we can update our onSubmit method to call the service:
+
+```
+onSubmit() {
+
+    this.newPlanService.postPlan(this.resolvePlan())
+      .subscribe(
+        data => {
+          this.submitted = true;
+          this.newPlanForm.reset();
+          return true;
+        },
+        error => {
+          console.error('Error!');
+          return Observable.throw(error);
+        }
+      );
+  }
+  
+```
 
 ### Dynamic Configuration
 
