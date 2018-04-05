@@ -298,23 +298,18 @@ In our application we will use bindings in several places, for example, in the n
 ## Reactive Forms
 
 In the reactive approach, the form is created in the component, in Typescript and binded to the html markup for the form.
-
 To get started we need to import the ReactiveFormsModule, we'll add this to our shared.component.ts file:
 
 ```
 import { ReactiveFormsModule } from '@angular/forms';
-
 ```
-don't forget to add it to the exports array in the same file.
+Don't forget to add it to the exports array in the same file.
 
 Now we can look at our new-plan component. First we import FormGroup, FormControl and Validators from angular/forms:
 
 ```
-
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-
 ```
-
 We want the form to be created when we initialize the component, so we'll implement OnInit in our class:
 
 ```
@@ -333,13 +328,11 @@ export class NewPlanComponent implements OnInit {
     });
 
 ```
-
 Here we have added some controls for each of the fields we want in the form and the will be referenced in the html code. For each form control we can pass some parameters, the first one is the initial value, the second parameter in this case is a validator. Validator.required will check that the form field contains a value.
 We have created a reactive form, however, we need to add the markup in our html file, so in new-plan.component.html we have to add the markup for each of the fields in the form. Here is an example of an input field in the form:
 
 ```
 <form [formGroup]="newPlanForm">
-
   <div class="form-group">
     <label for="name">
       <b>Name</b>
@@ -356,7 +349,6 @@ We have created a reactive form, however, we need to add the markup in our html 
     *ngIf="!newPlanForm.get('name').valid && newPlanForm.get('name').touched"
     class="error">Please enter a plan name</span>
   </div>
-
 </form>
 
 ```
@@ -382,13 +374,11 @@ Our form is created, however, nothing happens when we submit it because we have 
 onSubmit() {
 	console.log('Submitted');
   }
-
 ```
 and create the binding in the html form:
 
 ```
 <form [formGroup]="newPlanForm" (ngSubmit)="onSubmit()">
-
 ```
 
 ngSubmit is a default Angular directive that will trigger when the form gets submitted.
