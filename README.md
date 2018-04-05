@@ -510,7 +510,7 @@ Services in angular are where we manage our API calls. For the purpose of this D
 
 ### Create a service
 
-Using the cli and the syntax from the previous sections, add a service to app/components/ called my-plan. 
+Using the cli and the syntax from the previous sections, add a service to app/shared/ called plans. 
 
 We also need to add the service to our module. Pop into app.module.ts and add a reference to MyPlanService under the final declaration type that we will cover, Providers.
 
@@ -628,41 +628,97 @@ And lastly return to our angular terminal and start the application with the usu
 
 ### HTTPPost
 
-We have a service that gets our existing plans from the API but, how do we add new plans into the backend? We have to use HTTPPost for that, in the same service document, we'll add another method that is going to handle the POST request:
+Posting works with promises in exactly the same way as the Get call except we have to pass in some headers and a body. Lets create a function to post a plan back to the json server.
 ```
-postPlan(plan): Observable<any> {
-    const body = JSON.stringify(plan);
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    const options = {headers: headers};
-    return this._http.post<any>("http://localhost:3000/plans", body, options)
-      .do(data => {
-        // do something
-      })
-      .catch(console.log("Ups, there was an error"));
-  }
+postPlan(plan:any): Observable<any> {
+	const body = JSON.stringify(plan);
+	const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+	const options = {headers: headers};
+	return this._http.post<any>(this.apiRoot + 'plans', body, options)
+	  .do(data => {
+	  })
+	  .catch(this.handleError);
+}
 ```
-Note: we need to add headers for our mock API to accept the request. For more information about the options HTTPPost accepts, please refer to the Angular documentation https://angular.io/guide/http
 
-Now we can update our onSubmit method to call the service:
+So firstly we stringify the passed object to the funtion which will act as our body. We then specify what headers to pass back, in this case wer're just passing back the content-type. Finally we wrap the header in an options object, you can explore what else you can do here at a later date. Finally we send of the post call with the data and options.
+
+We can now use the post option within the new-plan component we created earlier, head back and in the onSubmit function add the following subscription
+```
+this.newPlanService.postPlan(this.resolvePlan())
+  .subscribe(
+	data => {
+	  this.submitted = true;
+	  this.newPlanForm.reset();
+	  return true;
+	},
+	error => {
+	  console.error('Error!');
+	  return Observable.throw(error);
+	}
+  );
+```
+
+Hey presto our form can now submit data correctly. Ultimatly up untill this point we've been a bit naughty, we've been using the any type everywhere which completly removes the power of typescript. If we know what data is being returned from our calls we should define the responses as a class or interface.
+
+###Interfaces
+
+Lets create an Interface through the angular cli, since a plan could be used across the product lets create it in our shared directory under models.
+```
+ng g i shared/models/IPlan 
+```
+
+As a first pass we're going to define are response type as strings and numbers
+```
+export interface IPlan {
+    name: string;
+    description: string,
+    starting: string,
+    finishing: string,
+    location: string,
+    id: number
+}
+```
+
+Then to use this interface lets replace the returned type of getPlans to an Observable<IPlan[]> and variable myPlans in the my-plans component to IPlan[]. Lets run the app and head to the My Plans page to see what happens.
+
+All our data loads the so it's working the same so why bother? Well by defining are response types as interfaces we can get on the fly intellisense recommendations and compile time errors within the development environment. The typescript however compiles down to JS so it does not affect the running of the application. 
+
+This can throw up some issues, http get and post responses can get past the interface definitions so objects could be missing fields. They cannot however be bypassed if they are mapped after the call. Mapping also allows us to split out fields if we require it.
+
+Let’s have a quick look at the GetPlans http get call again
 
 ```
-onSubmit() {
-
-    this.newPlanService.postPlan(this.resolvePlan())
-      .subscribe(
-        data => {
-          this.submitted = true;
-          this.newPlanForm.reset();
-          return true;
-        },
-        error => {
-          console.error('Error!');
-          return Observable.throw(error);
-        }
-      );
-  }
-  
+    return this._http.get<IPlan[]>(this.apiRoot + 'plans')
+      .do(data => {})
+      .map(results => {
+        return results.map(res => {
+          return {
+            name : res.name,
+            description : res.description
+          }
+        })
+       })
+      .catch(this.handleError);
 ```
+
+With the map function we can pick out what fields to pass on to our subscriptions whereas the do function is great for logging or conditional setters. If we want to enforce all fields at of the interface we can define it here.
+
+```
+let result : IPlan;
+          result = {
+            name : res.name,
+            description: res.description,
+            starting: res.starting,
+            finishing: res.finishing,
+            location: res.location,
+            id: res.id
+          }
+          return result;
+```
+
+It also means that we can check each value of the response to make sure any items that are critical are not null and separate combined data items like date times into separate variables if we need to! 
+
 
 ### Dynamic Configuration
 

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PlansService} from '../../shared/services/plans.service';
+import { IPlan } from '../../shared/models/plan';
 
 @Component({
   selector: 'app-my-plans',
@@ -8,7 +9,7 @@ import { PlansService} from '../../shared/services/plans.service';
 })
 export class MyPlansComponent implements OnInit {
 
-  myPlans: any[];
+  myPlans: IPlan[];
 
   constructor(private _myPlansService : PlansService) { }
 
