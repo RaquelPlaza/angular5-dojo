@@ -11,9 +11,10 @@ import { PlansService} from '../../shared/services/plans.service';
 })
 export class NewPlanComponent implements OnInit {
   newPlanForm: FormGroup;
-  constructor(private newPlanService: PlansService) {}
   categories: any[] = [];
   submitted = false;
+
+  constructor(private newPlanService: PlansService) {}
 
   ngOnInit() {
     this.newPlanForm = new FormGroup({

@@ -35,14 +35,14 @@
       "id": 6
     }
   ],
-  "Categories": [
+  "categories": [
     {
       "id": 1,
-      "body": "restaurant"
+      "name": "restaurant"
     },
     {
       "id": 2,
-      "body": "nightclub"
+      "name": "nightclub"
     }
   ],
   "profile": {

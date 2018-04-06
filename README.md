@@ -278,12 +278,221 @@ With that you should now have a snazzy navigation menu with the routing working.
 
 ## Bindings
 
+Binding allows us to pass data from the component to the html elements.
+We need to be able to send data to the form in HTML Elements, Directives and in our own Components with custom properties and events.
+
 ### Handlebars
+
+We use handlebars binding in our new-plan template, for example, as we'll see when we build the form, in the categories dropdown options:
+```
+<option *ngFor="let cat of categories" [value]="cat.id">{{ cat.body }}</option>
+```
 
 ### Brackets
 
+In our application we will use bindings in several places, for example, in the new-plan component, we bind the formGroup property to our reactive form, and we bing to the ngSubmit event so send the values back to the component.
+```
+<form [formGroup]="newPlanForm" (ngSubmit)="onSubmit()">
+```
+
 ## Reactive Forms
 
+In the reactive approach, the form is created in the component, in Typescript and binded to the html markup for the form.
+To get started we need to import the ReactiveFormsModule, we'll add this to our shared.component.ts file:
+
+```
+import { ReactiveFormsModule } from '@angular/forms';
+```
+Don't forget to add it to the exports array in the same file.
+
+Now we can look at our new-plan component. First we import FormGroup, FormControl and Validators from angular/forms:
+
+```
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+```
+We want the form to be created when we initialize the component, so we'll implement OnInit in our class:
+
+```
+export class NewPlanComponent implements OnInit {
+  newPlanForm: FormGroup;
+
+  ngOnInit() {
+    this.newPlanForm = new FormGroup({
+      'name': new FormControl(null, Validators.required),
+      'description': new FormControl(null, Validators.required),
+      'date': new FormControl(null, Validators.required),
+      'startingTime': new FormControl(null, Validators.required),
+      'finishingTime': new FormControl(null, Validators.required),
+      'category': new FormControl(null),
+      'location': new FormControl(null, Validators.required)
+    });
+
+```
+Here we have added some controls for each of the fields we want in the form and the will be referenced in the html code. For each form control we can pass some parameters, the first one is the initial value, the second parameter in this case is a validator. Validator.required will check that the form field contains a value.
+We have created a reactive form, however, we need to add the markup in our html file, so in new-plan.component.html we have to add the markup for each of the fields in the form. Here is an example of an input field in the form:
+
+```
+<form [formGroup]="newPlanForm">
+  <div class="form-group">
+    <label for="name">
+      <b>Name</b>
+    </label>
+    <input
+    id="name"
+    type="text"
+    formControlName="name"
+    class="form-control"
+    placeholder=""
+    name="name"
+    />
+    <span
+    *ngIf="!newPlanForm.get('name').valid && newPlanForm.get('name').touched"
+    class="error">Please enter a plan name</span>
+  </div>
+</form>
+
+```
+In this example we have synced the form and form field binding the formGroup directive [formGroup]="newPlanForm">
+And the name field using the formControlName=”name” directive
+Since we added a validator to the form in the component, let’s add a message here in case the form field is invalid. That is the <span> tag:
+*ngIf="!newPlanForm.get('name').valid && newPlanForm.get('name').touched"
+
+We can complete the form with a submit button:
+
+```
+<div class="row">
+    <div class="col-12">
+      <button type="submit" class="btn btn-success btn-block" [disabled]="!newPlanForm.valid">Add Plan</button>
+    </div>
+  </div>
+```
+The disabled directive is binding to the newPlanForm.valid property in order to disable the button if the form is not valid.
+
+Our form is created, however, nothing happens when we submit it because we have not binded it to a submit event. To see this working we are going to create a method in our component file:
+
+```
+onSubmit() {
+	console.log('Submitted');
+  }
+```
+and create the binding in the html form:
+
+```
+<form [formGroup]="newPlanForm" (ngSubmit)="onSubmit()">
+```
+
+ngSubmit is a default Angular directive that will trigger when the form gets submitted.
+
+### Adding bootstrap components
+
+We have a couple of fields that we could improve, date and starting and finishing time are a bit boring as input fields. Let’s make use of ngx-bootstrap https://valor-software.com/ngx-bootstrap/
+```
+npm install ngx-bootstrap --save
+OR
+yarn install ngx-bootstrap --save
+```
+We'll import a couple of components into our app.module file:
+```
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
+
+```
+and add them to the imports array:
+```
+BsDatepickerModule.forRoot(),
+TimepickerModule.forRoot(),
+```
+The component are now available to be used in our new-plan component markup:
+```
+<input
+    id="date"
+    type="text"
+    bsDatepicker
+    formControlName="date"
+    class="form-control"
+    placeholder=""
+    name="date"
+  />
+```
+```
+<timepicker
+    id="startingTime"
+    formControlName="startingTime"
+    name="startingTime"
+  ></timepicker>
+```
+There is an extra component we'll be using. When the form gets submitted, we want to inform the user that their plan has been added to My Plans. We'll use an alert component for this.
+```
+import { AlertModule } from 'ngx-bootstrap/alert';
+```
+And add the markup above all form fields:
+```
+  <alert type="success" dismissOnTimeout="3000" *ngIf="submitted">
+    <strong>Yes!</strong> We have a plan.
+  </alert>
+```
+The *ngIf directive is checking for a property called "submitted". We have to set this up in our component and then make it true inside our onSubmmit method:
+```
+submitted = false;
+```
+
+```
+onSubmit() {
+   this.submitted = true;
+  }
+```
+
+You may have noticed a field in the form called "Category". This is not a simple input field, we'll have a dropdown selector here so we can pick one of the existing categories available in the API. The html markup will look like this:
+
+```
+<select
+      id="category"
+      type="text"
+      formControlName="category"
+      class="form-control"
+      placeholder=""
+      name="category"
+    >
+    <option *ngFor="let cat of categories" [value]="cat.name">{{ cat.name }}</option>
+  </select>
+
+```
+The *ngFor directive loops over an array of categories that will ultimately be provided by a service, meanwhile, we'll create an array in the component file:
+
+```
+categories: any[] = [];
+```
+### Working out the bootstrap components output
+
+Bootstrap's timepicker returns a datetime format with today's date and the time selected, we need to tidy up the data we collect in the form before posting to the API. We'll create a method that compiles the date selected in the datepicker with the times selected for Starting and Finishing time, therefore, Starting and Finishing will contain timestamps with the selected date and times. We don't need to pass the Date output to the API anymore, as it will be contained within the time fields.
+
+In the component we'll create the following method:
+
+```
+resolvePlan() {
+
+    const planStart = new Date(this.newPlanForm.value.date.setHours(
+                                this.newPlanForm.value.startingTime.getHours(),
+                                this.newPlanForm.value.startingTime.getMinutes(),
+                                this.newPlanForm.value.startingTime.getSeconds()));
+    const planFinish = new Date(this.newPlanForm.value.date.setHours(
+                                this.newPlanForm.value.finishingTime.getHours(),
+                                this.newPlanForm.value.finishingTime.getMinutes(),
+                                this.newPlanForm.value.finishingTime.getSeconds()));
+
+    return ({
+    'name': this.newPlanForm.value.name,
+    'description': this.newPlanForm.value.description,
+    'starting': planStart,
+    'finishing': planFinish,
+    'category': this.newPlanForm.value.category,
+    'location': this.newPlanForm.value.location
+  });
+  }
+```
+And in out post service we'll pass this.resolvePlan().
+
+Time to get into Services!
 
 ## Services
 
@@ -372,6 +581,22 @@ To view what is returned lets quickly throw a for loop into the .html file to se
     {{plan.id}}
   </div>
 ```
+In our reactive form we set up a dropdown field that will display categories coming from an API endpoint and we need to create a method in our service to pull that information into our component, this is also a GET request, let's try creating this new method getCategories, very similar to getPlans but the end point will be /categories instead of /plans.
+
+Then in our new-plan component we add the following code, inside ngOnInit:
+```
+this.newPlanService.getCategories()
+      .subscribe(
+        data => {
+          this.categories = data;
+          return data;
+        },
+        error => {
+          return Observable.throw(error);
+        }
+      );
+```
+We are assining the object from our call to the categories array we declared previously. Now our dropdown has options coming from the API.
 
 ### JSON-Server
 
