@@ -17,9 +17,6 @@ export class NewPlanComponent implements OnInit {
   hasErrorOccurred : boolean = true;
  
   constructor(private newPlanService: PlansService) {}
- 
-
-  constructor(private newPlanService: PlansService) {}
 
   ngOnInit() {
     this.newPlanForm = new FormGroup({
