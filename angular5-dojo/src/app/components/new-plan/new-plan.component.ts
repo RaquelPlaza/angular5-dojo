@@ -14,7 +14,7 @@ export class NewPlanComponent implements OnInit {
   newPlanForm: FormGroup;
   categories: any[] = [];
   submitted : boolean = false;
-  hasErrorOccurred : boolean = true;
+  hasErrorOccurred : boolean = false;
  
   constructor(private newPlanService: PlansService) {}
 
