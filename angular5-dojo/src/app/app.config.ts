@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class AppConfig {
@@ -8,8 +9,8 @@ export class AppConfig {
     private config: Object = null;
     private env:    Object = null;
 
-    private locationPrefix : string = "./config/";
-    constructor(private http: Http) {
+    private locationPrefix : string = './config/';
+    constructor(private http: HttpClient) {
 
     }
 
@@ -34,25 +35,25 @@ export class AppConfig {
      */
     public load() {
         return new Promise((resolve, reject) => {
-            this.http.get(this.locationPrefix + "env.json")
-            .map( 
-              res => res.json()
+            this.http.get(this.locationPrefix + 'env.json')
+            .map(
+              res => res
             ).catch(
               (error: any):any => {
                 console.log('Configuration file "env.json" could not be read');
                 resolve(true);
-                return Observable.throw(error.json().error || 'Server error');
+                return Observable.throw(error.error || 'Server error');
             }).subscribe( (envResponse) => {
-                this.env = envResponse;
+              console.log(envResponse);
+                // this.env = envResponse.env;
                 let request:any = null;
-
                 switch (envResponse.env) {
                     case 'production': {
                         request = this.http.get(this.locationPrefix + 'config.' + envResponse.env + '.json');
                     } break;
 
                     case 'development': {
-                        request = this.http.get(this.locationPrefix +'config.' + envResponse.env + '.json');
+                        request = this.http.get(this.locationPrefix + 'config.' + envResponse.env + '.json');
                     } break;
 
                     case 'default': {
@@ -63,11 +64,11 @@ export class AppConfig {
 
                 if (request) {
                     request
-                        .map( res => res.json() )
+                        .map( res => res )
                         .catch((error: any) => {
                             console.error('Error reading ' + envResponse.env + ' configuration file');
                             resolve(error);
-                            return Observable.throw(error.json().error || 'Server error');
+                            return Observable.throw(error.error || 'Server error');
                         })
                         .subscribe((responseData) => {
                             this.config = responseData;

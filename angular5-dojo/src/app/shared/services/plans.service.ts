@@ -4,15 +4,15 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
-import { AppConfig } from "../../app.config";
-import { IPlan, Plan } from "../models/plan";
+import { AppConfig } from '../../app.config';
+import { IPlan, Plan } from '../models/plan';
 
 @Injectable()
 export class PlansService {
 
   apiRoot = '';
 
-  constructor(private _http : HttpClient, private config : AppConfig ) { 
+  constructor(private _http : HttpClient, private config : AppConfig ) {
     this.apiRoot = config.getConfig('apiRoot');
   }
 
@@ -31,7 +31,7 @@ export class PlansService {
             id: res.id
           }
           return result;
-        })
+        });
        })
       .catch(this.handleError);
   }

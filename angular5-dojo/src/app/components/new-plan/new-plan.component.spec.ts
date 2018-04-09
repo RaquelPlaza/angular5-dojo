@@ -9,6 +9,8 @@ import { FormsModule} from '@angular/forms';
 import { AlertModule, BsDatepickerModule, TimepickerModule} from 'ngx-bootstrap';
 import { HttpClientModule, HttpClient} from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { AppConfig } from '../../app.config';
+import { Http } from '@angular/http';
 
 describe('NewPlanComponent', () => {
   let component: NewPlanComponent;
@@ -23,9 +25,10 @@ describe('NewPlanComponent', () => {
         TimepickerModule,
         AlertModule,
         HttpClientModule,
-        HttpClientTestingModule],
+        HttpClientTestingModule,
+        Http],
       declarations: [ NewPlanComponent ],
-      providers: [PlansService]
+      providers: [PlansService, AppConfig]
     })
     .compileComponents();
   }));
@@ -35,18 +38,18 @@ describe('NewPlanComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    el = fixture.debugElement.query(By.css('input'));
+    //el = fixture.debugElement.query(By.css('input'));
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  fit('form invalid when empty', () => {
+  it('form invalid when empty', () => {
     expect(component.newPlanForm.valid).toBeFalsy();
   });
 
-  fit('setting submitted to true, displays the notificatio', () =>{
+  it('setting submitted to true, displays the notificatio', () =>{
     component.submitted = true;
     fixture.detectChanges();
     expect(el.nativeElement.submitted).toBeTruthy();

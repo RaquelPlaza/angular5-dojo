@@ -1,11 +1,17 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { PlansService } from './plans.service';
+import { HttpClientModule } from '@angular/common/http';
+import { AppConfig} from '../../app.config';
 
 describe('PlansService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [PlansService]
+      imports: [
+        HttpClientModule],
+      providers: [
+        PlansService,
+        AppConfig]
     });
   });
 
