@@ -9,7 +9,7 @@ export class AppConfig {
     private config: Object = null;
     private env:    Object = null;
 
-    private locationPrefix : string = './config/';
+    private locationPrefix: string = './config/';
     constructor(private http: HttpClient) {
 
     }

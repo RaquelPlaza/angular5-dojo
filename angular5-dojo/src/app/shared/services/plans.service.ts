@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import {Injectable, OnInit} from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';
@@ -8,12 +8,14 @@ import { AppConfig } from '../../app.config';
 import { IPlan, Plan } from '../models/plan';
 
 @Injectable()
-export class PlansService {
+export class PlansService implements OnInit {
 
   apiRoot = '';
 
-  constructor(private _http : HttpClient, private config : AppConfig ) {
-    this.apiRoot = config.getConfig('apiRoot');
+  constructor(private _http: HttpClient, private config: AppConfig ) {}
+
+  ngOnInit() {
+    this.apiRoot = this.config.getConfig('apiRoot');
   }
 
   getPlans(): Observable<IPlan[]> {
