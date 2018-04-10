@@ -1,3 +1,7 @@
+<div *ngIf="hasErrorOccurred">
+  <app-error-notification [message]="'An unknown error has occurred'" (dismissError)="onErrorDismissed()" ></app-error-notification>
+</div>
+
 <form [formGroup]="newPlanForm" (ngSubmit)="onSubmit()">
 
   <alert type="success" dismissOnTimeout="3000" *ngIf="submitted">
