@@ -8,15 +8,15 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class ErrorNotificationComponent implements OnInit {
 
-  @Input() message : string = "";
-  @Output() dismissError : EventEmitter<boolean> = new EventEmitter<boolean>();
-  
+  @Input() message = '';
+  @Output() dismissError: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   constructor() { }
 
   ngOnInit() {
   }
 
-  onDismissError(){
+  onDismissError() {
     this.dismissError.emit(true);
   }
 

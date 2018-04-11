@@ -44,7 +44,7 @@ export class AppConfig {
                 resolve(true);
                 return Observable.throw(error.error || 'Server error');
             }).subscribe( (envResponse) => {
-                // this.env = envResponse.env;
+                this.env = envResponse['env'];
                 let request: any = null;
                 switch (envResponse['env']) {
                     case 'production': {
@@ -70,6 +70,7 @@ export class AppConfig {
                             return Observable.throw(error.error || 'Server error');
                         })
                         .subscribe((responseData) => {
+                          console.log(responseData);
                             this.config = responseData;
                             resolve(true);
                         });

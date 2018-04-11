@@ -10,6 +10,7 @@ import { AlertModule, BsDatepickerModule, TimepickerModule} from 'ngx-bootstrap'
 import { HttpClientModule, HttpClient} from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { AppConfig } from '../../app.config';
+import { SharedModule} from '../../shared/shared.module';
 
 describe('NewPlanComponent', () => {
   let component: NewPlanComponent;
@@ -23,10 +24,12 @@ describe('NewPlanComponent', () => {
         TimepickerModule.forRoot(),
         AlertModule.forRoot(),
         HttpClientModule,
-        HttpClientTestingModule],
+        HttpClientTestingModule,
+        SharedModule],
       declarations: [ NewPlanComponent ],
       providers: [PlansService, AppConfig]
-    });
+    })
+    .compileComponents();
 
     fixture = TestBed.createComponent(NewPlanComponent);
     component = fixture.componentInstance;
@@ -41,9 +44,11 @@ describe('NewPlanComponent', () => {
     expect(component.newPlanForm.valid).toBeFalsy();
   });
 
-  // it('setting submitted to true, displays the notification', () =>{
-  //   component.submitted = true;
-  //   fixture.detectChanges();
-  //   expect(el.nativeElement.submitted).toBeTruthy();
-  // });
+  it('setting submitted to true, displays the notification', () =>{
+    component.submitted = true;
+    fixture.detectChanges();
+    const el: HTMLElement = fixture.nativeElement;
+    const alert = el.querySelector('alert');
+    expect(alert).toBeTruthy();
+  });
 });
