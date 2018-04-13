@@ -11,7 +11,6 @@ export class AppConfig {
 
     private locationPrefix: string = './config/';
     constructor(private http: HttpClient) {
-
     }
 
     /**
@@ -70,7 +69,6 @@ export class AppConfig {
                             return Observable.throw(error.error || 'Server error');
                         })
                         .subscribe((responseData) => {
-                          console.log(responseData);
                             this.config = responseData;
                             resolve(true);
                         });

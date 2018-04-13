@@ -8,14 +8,12 @@ import { AppConfig } from '../../app.config';
 import { IPlan, Plan } from '../models/plan';
 
 @Injectable()
-export class PlansService implements OnInit {
+export class PlansService {
 
   apiRoot = '';
 
-  constructor(private _http: HttpClient, private config: AppConfig ) {}
-
-  ngOnInit() {
-    this.apiRoot = this.config.getConfig('apiRoot');
+  constructor(private _http: HttpClient, private config: AppConfig ) {
+    this.apiRoot = config.getConfig('apiRoot');
   }
 
   getPlans(): Observable<IPlan[]> {
@@ -23,7 +21,7 @@ export class PlansService implements OnInit {
       .do(data => {})
       .map(results => {
         return results.map(res => {
-          let result : IPlan;
+          let result: IPlan;
           result = {
             name : res.name,
             description: res.description,
@@ -50,6 +48,7 @@ export class PlansService implements OnInit {
   }
 
   getCategories(): Observable<any> {
+    console.log(this.apiRoot);
     return this._http.get<any>(this.apiRoot + 'categories')
       .do(data => {
         //TODO What?
