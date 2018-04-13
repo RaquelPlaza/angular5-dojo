@@ -13,6 +13,12 @@ import { AppConfig } from '../../app.config';
 import { SharedModule} from '../../shared/shared.module';
 
 describe('NewPlanComponent', () => {
+  class MockConfig {
+    getConfig() {
+      return 'http://localhost:3000/';
+    }
+  }
+
   let component: NewPlanComponent;
   let fixture: ComponentFixture<NewPlanComponent>;
 
@@ -27,7 +33,8 @@ describe('NewPlanComponent', () => {
         HttpClientTestingModule,
         SharedModule],
       declarations: [ NewPlanComponent ],
-      providers: [PlansService, AppConfig]
+      providers: [PlansService,
+        { provide: AppConfig, useClass: MockConfig}]
     })
     .compileComponents();
 
