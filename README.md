@@ -1,4 +1,4 @@
-﻿# Angular5-dojo
+# Angular5-dojo
 A tutorial to get started with Angular 5 and explore its possibilities to put together front end applications
 
 ## Getting Started
@@ -333,21 +333,21 @@ We have created a reactive form, however, we need to add the markup in our html 
 
 ```
 <form [formGroup]="newPlanForm">
-  <div class="form-group">
+    <div class="form-group">
     <label for="name">
       <b>Name</b>
     </label>
-    <input
-    id="name"
-    type="text"
-    formControlName="name"
-    class="form-control"
-    placeholder=""
-    name="name"
+    <input id="name" type="text" formControlName="name" class="form-control" placeholder="" name="name" />
+    <span *ngIf="!newPlanForm.get('name').valid && newPlanForm.get('name').touched" class="error">Please enter a plan name</span>
+  </div>
+
+  <div class="form-group">
+    <label for="description">
+      <b>Description</b>
+    </label>
+    <input id="description" type="text" formControlName="description" class="form-control" placeholder="" name="description"
     />
-    <span
-    *ngIf="!newPlanForm.get('name').valid && newPlanForm.get('name').touched"
-    class="error">Please enter a plan name</span>
+    <span *ngIf="!newPlanForm.get('description').valid && newPlanForm.get('description').touched" class="error">Please enter a plan description</span>
   </div>
 </form>
 
@@ -402,24 +402,40 @@ and add them to the imports array:
 BsDatepickerModule.forRoot(),
 TimepickerModule.forRoot(),
 ```
+
+The date picker also has a custom styling so let's also add that into the styles array in angular-cli.json
+
+```
+"../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css"
+```
+
 The component are now available to be used in our new-plan component markup:
 ```
-<input
-    id="date"
-    type="text"
-    bsDatepicker
-    formControlName="date"
-    class="form-control"
-    placeholder=""
-    name="date"
-  />
+  <div class="form-group">
+    <label for="date">
+      <b>Date</b>
+    </label>
+    <input id="date" type="text" bsDatepicker formControlName="date" class="form-control" placeholder="" name="date" />
+    <span *ngIf="!newPlanForm.get('date').valid && newPlanForm.get('date').touched" class="error">Please enter a plan date</span>
+  </div>
 ```
 ```
-<timepicker
-    id="startingTime"
-    formControlName="startingTime"
-    name="startingTime"
-  ></timepicker>
+<div class="form-group" ngClass="row">
+    <div class="col-md-6">
+      <label for="startingTime">
+        <b>Starting time</b>
+      </label>
+      <timepicker id="startingTime" formControlName="startingTime" name="startingTime"></timepicker>
+      <span *ngIf="!newPlanForm.get('startingTime').valid && newPlanForm.get('startingTime').touched" class="error">Please enter a plan date</span>
+    </div>
+    <div class="col-md-6">
+      <label for="finishingTime">
+        <b>Finishing time</b>
+      </label>
+      <timepicker id="finishingTime" formControlName="finishingTime" name="finishingTime"></timepicker>
+      <span *ngIf="!newPlanForm.get('finishingTime').valid && newPlanForm.get('finishingTime').touched" class="error">Please enter a plan date</span>
+    </div>
+  </div>
 ```
 There is an extra component we'll be using. When the form gets submitted, we want to inform the user that their plan has been added to My Plans. We'll use an alert component for this.
 ```
@@ -445,16 +461,14 @@ onSubmit() {
 You may have noticed a field in the form called "Category". This is not a simple input field, we'll have a dropdown selector here so we can pick one of the existing categories available from an API. The html markup will look like this:
 
 ```
-<select
-      id="category"
-      type="text"
-      formControlName="category"
-      class="form-control"
-      placeholder=""
-      name="category"
-    >
-    <option *ngFor="let cat of categories" [value]="cat.name">{{ cat.name }}</option>
-  </select>
+<div class="form-group">
+    <label for="category">
+      <b>Category</b>
+    </label>
+    <select id="category" type="text" formControlName="category" class="form-control" placeholder="" name="category">
+      <option *ngFor="let cat of categories" [value]="cat.name">{{ cat.name }}</option>
+    </select>
+  </div>
 
 ```
 The *ngFor directive loops over an array of categories that will ultimately be provided by a service, meanwhile, we'll create an array in the component file:
@@ -491,6 +505,22 @@ resolvePlan() {
   }
 ```
 And in our post service we'll pass this.resolvePlan().
+
+Now we have our inputs created and acting in a reactive manor lets tidy them up a bit. Open up the my-plans.css file and insert the following styles:
+```
+.form-field {
+  width: 70%;
+}
+```
+
+This styling will only work on our component so we can easily defined specific styles and extract whole components nicely. If we wanted a global style then we can set it in the master style.css. Since our fixed navigation model hovers over our page, lets add some padding to the page in the global .css to account for that.
+```
+#page-container{
+    padding-top:56px;
+}
+```
+
+Now every page will have the padding applied to it.
 
 Time to get into Services!
 
