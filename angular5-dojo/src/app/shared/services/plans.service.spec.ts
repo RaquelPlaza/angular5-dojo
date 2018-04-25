@@ -1,16 +1,16 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed, getTestBed, inject } from '@angular/core/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 import { PlansService } from './plans.service';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {HttpClient, HttpClientModule, XhrFactory, } from '@angular/common/http';
 import { AppConfig} from '../../app.config';
 
 describe('PlansService', () => {
 
 
-  class MockPlanService extends PlansService {
-    this = '';
-    public getConfig() {
-      return 'http://localhost:3000';
+  class MockConfig {
+    getConfig() {
+      return 'http://localhost:3000/';
     }
   }
 
@@ -19,14 +19,15 @@ describe('PlansService', () => {
       imports: [
         HttpClientModule],
       providers: [
-        AppConfig,
+        PlansService,
         {
-          provide: PlansService,
-          useClass: MockPlanService
+          provide: AppConfig, useClass: MockConfig
         }
         ]
     });
+
   });
+
 
   it('should be created', inject([
     PlansService], (service: PlansService) => {

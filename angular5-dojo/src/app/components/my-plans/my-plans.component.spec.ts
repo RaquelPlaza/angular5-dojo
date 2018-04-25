@@ -6,6 +6,12 @@ import { PlansService} from '../../shared/services/plans.service';
 import { AppConfig } from '../../app.config';
 
 describe('MyPlansComponent', () => {
+  class MockConfig {
+    getConfig() {
+      return 'http://localhost:3000/';
+    }
+  }
+
   let component: MyPlansComponent;
   let fixture: ComponentFixture<MyPlansComponent>;
   let plansService: PlansService;
@@ -15,12 +21,15 @@ describe('MyPlansComponent', () => {
       imports: [
         HttpClientModule],
       declarations: [ MyPlansComponent ],
-      providers: [ AppConfig, PlansService ]
+      providers: [ PlansService,
+        {
+          provide: AppConfig, useClass: MockConfig
+        }]
     });
 
     fixture = TestBed.createComponent(MyPlansComponent);
     component = fixture.componentInstance;
-    plansService = TestBed.get(PlansService);
+    plansService = TestBed.get(PlansService, AppConfig);
     fixture.detectChanges();
   }));
 
