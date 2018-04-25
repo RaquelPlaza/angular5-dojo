@@ -993,7 +993,7 @@ Next up, testing.
 
 ## Testing
 
-We will be focusing on Karma tests in this dojo, you can also explore e2e tests after. To run tests type
+We will be focussing on Karma tests in this Dojo, you can also explore e2e tests after. To run tests type:
 
 ```
 yarn test
@@ -1001,11 +1001,11 @@ Or
 ng test
 ```
 
-Yes you already have some! This command will open up a new browser window and run through the tests specified in your .spec files. Unfortunately the default tests now all fail. Boooo! We shall now identify some common issues in testing and try to fix the tests.
+Yes, you already have some! This command will open up a new browser window and run through the tests specified in your .spec files. Unfortunately, the default tests now all fail. Boooo! We shall now identify some common issues in testing and try to fix the tests.
 
 ### Routing in testing
 
-The spec files need to import the items that they will be using in order to run, one of the main items to import and is often forgot is the routing module. Head into the app.component.spec file as update it to the following.
+The spec files need to import the items that they will be using in order to run, one of the main items to import and is often forgotten is the routing module. Head into the app.component.spec file and update it to the following:
 
 ```
 import { TestBed, async } from '@angular/core/testing';
@@ -1039,13 +1039,13 @@ describe('AppComponent', () => {
 });
 ```
 
-Here we can see we have a configureTestingModule which works in a similar way to a module, importing and declaring the components we require to run a unit of code. The main import to take notice of here is the RouterTestingModule which allows us to run the tests without importing the full routing module. 
+Here we can see we have a configureTestingModule which works in a similar way to a normal module, importing and declaring the components we require to run a unit of code. The main import to take notice of here is the RouterTestingModule which allows us to run the tests without importing the full routing module. 
 
-Familarize yourself with the expect process to while you’re here, particularly what conditions you can check against and what you can check on within the component.
+Familarise yourself with the processes while you’re here, particularly what conditions you can check against and what you can check on within the component using Intelisense.
 
 ### Mocks 
 
-Another important feature that is required within our tests is to be able to mock our services. Since these are unit tests we don’t want to be relying on 101 other components that could also fail against any given test. Let’s update plans.service.spec file with the following: 
+Another important feature that is required within our tests is to be able to mock our services. Since these are unit tests, we don’t want to be relying on 101 other components that could also fail against any given test. Let’s update plans.service.spec file with the following: 
 
 ```
 import { TestBed, getTestBed, inject } from '@angular/core/testing';
@@ -1085,11 +1085,11 @@ describe('PlansService', () => {
 
 ```
 
-Here we can see the MockConfig class that implements a return url for the function getConfig(). We then register the AppConfig service in the providers telling it to use the MockConfig class we just created. Now we have full control over what our service will receive when it injects the service during construction, isolating our tests to a unit of code!
+Here we can see the MockConfig class that implements a return URL for the function getConfig(). We then register the AppConfig service in the providers, telling it to use the MockConfig class we just created. Now we have full control over what our service will receive when it injects the service during construction, isolating our tests to a unit of code!
 
 ### Further Testing  
 
-There are multiple ways in which you can test you code, have a play with what’s available, fix the existing testing issues and for further ideas, have a look at the .spec files contained within the dojo repository.  
+There are multiple ways in which you can test you code, have a play with what’s available, fix the existing testing issues and for further ideas, have a look at the .spec files contained within the Dojo repository.  
 
 ## Deployment
 
@@ -1101,7 +1101,7 @@ yarn build –prod
 
 All your files will be built into a dist folder which you can push up to IIS or another hosting service as you feel fit. Easy! 
 
-There is a bit more to it than that but you can explore that after the dojo in Best Practise by Jim Cooper referenced in Further Resources.
+For a deeper understanding of whats going on, you can explore Best Practises by Jim Cooper, referenced in Further Resources.
 
 ## Built With
 
@@ -1114,7 +1114,7 @@ There is a bit more to it than that but you can explore that after the dojo in B
 
 ## Further Resources
 
-These are some additional resources that I’ve found useful for other projects:
+These are some additional resources that I’ve found useful on projects:
 
 Pipelines – Chapter 6 Data Binding and Pipes > Transforming Data with Pipes - https://app.pluralsight.com/library/courses/angular-2-getting-started-update/table-of-contents by Deborah Kurata 
 
@@ -1122,7 +1122,7 @@ Interceptors - https://medium.com/@ryanchenkie_40935/angular-authentication-usin
 
 Angular with Identity Server - https://www.scottbrady91.com/Angular by Scott Brady
 
-Best practises - https://app.pluralsight.com/library/courses/best-practices-angular/table-of-contents by Jim Cooper
+Best Practises - https://app.pluralsight.com/library/courses/best-practices-angular/table-of-contents by Jim Cooper
 
 
 
