@@ -34,17 +34,17 @@ npm install OR yarn (downloads the required modules)
 ng serve OR yarn start
 ```
 
-You can see the newly create site if you head to http://localhost:4200/ on your browser of choice.
+You can see the newly created site if you head to http://localhost:4200/ on your browser of choice.
 
-*You may be wondering why we used the --skip-install flag? Simply put, if you've made a typo or made a mistake in your default configuration, you've just downloaded a chunk of files for nothing. By using skip-install you can check what is created before downloading all the required modules. The Angular CLI has a lot of flags to speed up the creation of projects that you can explore at a later date but it's a good practise to check what is created from the start.   
+*You may be wondering why we used the --skip-install flag? Simply put, if you've made a typo or made a mistake in your default configuration, you've just downloaded a chunk of files for nothing. By using skip-install you can check what is created before downloading all the required modules. The Angular CLI has a lot of flags to speed up the creation of projects that you can explore at a later date but it's a good practice to check what is created from the start.   
 
 ### Visual Studio Code
 
-The argument is out there on the best development IDE but we shall use Visual Studio Code, you should have grabbed a copy as part of the prerequisites. Open it up and drag you project folder in. Your project should now be open and to make your life easier you can go to view > integrated terminal to have a CMD terminal open within your environment. Nice!
+The argument is out there on the best development IDE but we shall use Visual Studio Code, you should have grabbed a copy as part of the prerequisites. Open it up and drag you project folder in. Your project should now be open and to make your life easier, you can go to view > integrated terminal to have a CMD terminal open within your environment. Nice!
 
 ### Third party components (Bootstrap 4)
 
-If you've not used bootstrap before you're in for a treat! Bootstrap is a nice library of dynamic components and layout tools that are implemented through html classes. It's not the focal point of this tutorial but we will be using it so let’s install it.
+If you've not used bootstrap before, you're in for a treat! Bootstrap is a nice library of dynamic components and layout tools that are implemented through html classes. It's not the focal point of this tutorial but we will be using it so let’s install it.
 
 Firstly let’s use npm/Yarn to grab the files. There are major differences between 3 and 4 so make sure you have version 4.
 
@@ -54,13 +54,13 @@ OR
 yarn add bootstrap@4
 ```
 
-Following that command you will find a reference to bootstrap in the projects package.json file under "dependencies". You will also find the Bootstrap files in the node_modules folder. It’s worth having a look through these files and understanding what they do at a later date. Finally we have a reference to include to get it off the ground. In the .angular-cli.json file, within the styles array, add the following to the end:     
+Following that command, you will find a reference to bootstrap in the projects package.json file under "dependencies". You will also find the Bootstrap files in the node_modules folder. It’s worth having a look through these files and understanding what they do at a later date. Finally, we have a reference to include to get it off the ground. In the .angular-cli.json file, within the styles array, add the following to the end:     
 
 ```
 "../node_modules/bootstrap/dist/css/bootstrap.min.css"
 ```
 
-Congrats bootstraps base styling can now be applied across the project. Let’s now enable Bootstraps animations, unfortunately Bootstrap relies on JQuery for them. However we can get away with JQuery-slim. Once again use npm or Yarn to pull the packages.
+Congrats, Bootstrap's base styling can now be applied across the project. Let’s now enable Bootstrap's animations; unfortunately Bootstrap relies on JQuery for them. However comp we can get away with JQuery-slim. Once again use npm or Yarn to pull the packages.
 
 ```
 npm install jquery-slim
@@ -80,14 +80,14 @@ Basic animations have now been added. We won’t be directly using these but you
 
 ## Components
 
-Angular is completely component based, we can use them for full pages or for view items that can be used across multiple pages complying with DRY principles. They generally consist of 4 items.
+Angular is completely component based, we can use components for full pages or for items that can be used across multiple pages complying with DRY principles. They generally consist of 4 items.
 
 * A Component.ts file which is the Angular structure file.
 * A Component.html for what is displayed, .ts binds to this.
 * A Component.css or .sass for the html styling.
 * A Component.spec.ts for test configurations.
 
-Now we don’t want to create all four files every time we need a new component, that’s going to become tedious pretty fast so say hello to the CLI. Type into the console window…
+Now, we don’t want to create all four files every time we need a new component, that’s going to become tedious pretty fast, so say hello to the CLI. Type into the console window…
 
 ```
 ng g c components/new-plan –dry-run
@@ -103,7 +103,7 @@ You should see the following created.
   update src/app/app.module.ts (1597 bytes) 
 ```
 
-Nice right! By default the CLI will create a folder in src/app with the new files and automatically reference it in app.module (we shall look into modules later), so let’s break down the CLI instruction.
+Nice! By default, the CLI will create a folder in src/app with the new files and automatically reference it in app.module (we shall look into modules later), so let’s break down the CLI instruction.
 
 ```
 ng – Angular CLI
@@ -113,19 +113,19 @@ components/new-plan – called new-plan in a directory called components
 --dry-run – but only simulate it
 ```
 
-The syntax is the same for all the Angular items that we will create! So we’ve run the command and we’re happy that the component will be created correctly so let’s run the command without the --dry-run flag to actually create the files.
+The syntax is the same for all the Angular items that we will create! So we’ve run the command and we’re happy that the component will be created correctly, so let’s run the command without the --dry-run flag to actually create the files.
 
-For the purpose of the Dojo we also want another two components called my-plans and my-tags. Have a go at creating them and familiarise yourself with what is created in the files.
+For the purpose of the Dojo, we also want another two components called my-plans and my-tags. Have a go at creating them and familiarise yourself with what is created in the files.
 
 ## Modules 
 
 ### Modules Explained
 
-A module is essentially a packet of references. They import other modules to be used by its components and exports there components to other modules. By default every Angular app will have an app.module.ts file which is the primary module where everything else is referenced. Large sections of the app can then be broken down into child modules.
+Modules are essentially packets of references. They import other modules to be used by their components and export their components to other modules. By default every Angular app will have an app.module.ts file which is the primary module where everything else is referenced. Large sections of the app can then be broken down into child modules.
 
 Let’s have a look at our entry point module app.module.ts.
 
-Firstly at the top of the file you will see a list of imports, anything that will be referenced within the module needs to be included here.
+Firstly, at the top of the file you will see a list of imports, anything that will be referenced within the module needs to be included here.
 
 ```
 import { AppComponent } from './app.component';
@@ -133,7 +133,7 @@ import { NewPlanComponent } from './components/new-plan/new-plan.component';
 import { MyPlansComponent } from './components/my-plans/my-plans.component';
 import { MyTagsComponent } from './components/my-tags/my-tags.component';
 ```
-Under declarations you should be able to see AppComponent and the three previous components created. If not you should add them here now. This essential says these component are a part of this module.
+Under declarations you should be able to see AppComponent and the three previous components created. If not, you should add them here now. This essentially says these components are a part of this module.
 
 ```
 declarations: [
@@ -152,7 +152,7 @@ imports: [
     FormsModule,
     ….
 ```
-There are also two other sections, Providers and Exports which we shall explore later but are generally by design are not used by the app.module except in specific cases.
+There are also two other sections, Providers and Exports which we shall explore later but generally, by design, are not used by the app.module except in specific cases.
 
 ### Create a module
 
@@ -162,9 +162,9 @@ Let’s create a module for components that are shared across multiple modules i
 ng g m shared –dry-run
 ```
 
-Notice all we’ve done is changed “C”omponent to “M”odule. Once again, when you’re happy that will do what’s expected run it without the --dry-run flag.
+Notice all we’ve done is changed “C”omponent to “M”odule. Once again, when you’re happy that it will do what’s expected, run it without the --dry-run flag.
 
-We have our shared module! Now let’s add in some common modules and introduce the exports section.
+We have our shared module! Now, let’s add in some common modules and introduce the exports section.
 
 ```
 import { NgModule } from '@angular/core';
@@ -186,9 +186,9 @@ import { BrowserModule } from '@angular/platform-browser';
 export class SharedModule { }
 ```
 
-Exports make any component / module contained available to any other module that references this shared module. This means if we have a component declared in a module but not exported, its private! 
+Exports make any component / module contained available to any other module that references this shared module. This means if we have a component declared in a module but not exported, it's private! 
 
-Now we have a shared module let’s use it. Head back to app.module.ts and remove the three modules above and replace them with SharedModule. intelisense should then prompt you to add the import reference. If not add...
+Now we have a shared module, let’s use it. Head back to app.module.ts and remove the three modules above and replace them with SharedModule. Intelisense should then prompt you to add the import reference. If not add...
 
 ```
 import { SharedModule } from './shared/shared.module';
@@ -208,7 +208,7 @@ Head to app.module.ts and in the inputs add**:
 RouterModule.forRoot(appRoutes, {useHash : false})
 ``` 
 
-You should get an intelisense notification to import the router module. Then under the imports at the top of the file add in a routes array…
+You should get an Intelisense notification to import the router module. Then, under the imports at the top of the file add in a routes array…
 
 ```
 const appRoutes: Routes = [
@@ -221,11 +221,11 @@ const appRoutes: Routes = [
 
 We have now configured our components to routes! Once we've configured our app core view we will be able to visit these routes. 
 
-Now you may be thinking this is all nice but what if my module has a lot of components, won’t this become messy. The answer is yes and it is why its good practise to separate out your routing into its own module!*** You can try this now if you want or after the dojo.
+Now, you may be thinking this is all nice but what if my module has a lot of components, won’t this become messy? The answer is yes and it is why it's good practise to separate out your routing into its own module!*** You can try this now if you want or after the Dojo.
 
 ** If you were in a sub module and wanted to add in another level of routing, you would use .forChild() instead of .forRoot().
 
-*** the Angular CLI provides more magic here, if you know you will be using routing straight from the start you can add the -–routing to instantly create you a routing module for app.module.ts
+*** the Angular CLI provides more magic here, if you know you will be using routing straight from the start you can add the -–routing flag to instantly create you a routing module for app.module.ts
 
 ```
 ng new angular5-dojo –routing
@@ -262,9 +262,9 @@ Now we have our routes, let’s create a navigation menu using bootstrap. Add th
 </div>
 ```
 
-There are two key parts to take note of in this code, firstly the [routerLink]="['/my-plans']" binding. The routerLink binding essentially sets our “a” tags href parameter to http://localhost:4200/my-plans. Therefore redirecting to it on a click.
+There are two key parts to take note of in this code, firstly the [routerLink]="['/my-plans']" binding. The routerLink binding essentially sets our “a” tags href parameter to http://localhost:4200/my-plans, therefore, redirecting to it on a click.
 
-Secondly the router-outlet component <router-outlet></router-outlet>. When we click on the link the component will be loaded inside these brackets since we’re dealing with a Single Page Application (SPA).
+Secondly, the router-outlet component <router-outlet></router-outlet>. When we click on the link, the component will be loaded inside these brackets since we’re dealing with a Single Page Application (SPA).
 
 ```
 <div id="page-container" class="container">
@@ -274,7 +274,7 @@ Secondly the router-outlet component <router-outlet></router-outlet>. When we cl
 </div>
 ```
 
-With that you should now have a snazzy navigation menu with the routing working.
+With that, you should now have a snazzy navigation menu with the routing working.
 
 ## Bindings
 
@@ -328,7 +328,7 @@ export class NewPlanComponent implements OnInit {
     });
 
 ```
-Here we have added some controls for each of the fields we want in the form and the will be referenced in the html code. For each form control we can pass some parameters, the first one is the initial value, the second parameter in this case is a validator. Validator.required will check that the form field contains a value.
+Here we have added some controls for each of the fields we want in the form and will be referenced in the html code. For each form control, we can pass some parameters, the first one is the initial value, the second parameter in this case is a validator. Validator.required will check that the form field contains a value.
 We have created a reactive form, however, we need to add the markup in our html file, so in new-plan.component.html we have to add the markup for each of the fields in the form. Here is an example of an input field in the form:
 
 ```
@@ -352,9 +352,9 @@ We have created a reactive form, however, we need to add the markup in our html 
 </form>
 
 ```
-In this example we have synced the form and form field binding the formGroup directive [formGroup]="newPlanForm">
-And the name field using the formControlName=”name” directive
-Since we added a validator to the form in the component, let’s add a message here in case the form field is invalid. That is the <span> tag:
+In this example, we have synced the form and form field, binding the formGroup directive [formGroup]="newPlanForm">
+and the name field using the formControlName=”name” directive.
+Since we added a validator to the form in the component, let’s add a message here, in case the form field is invalid. That is the <span> tag:
 *ngIf="!newPlanForm.get('name').valid && newPlanForm.get('name').touched"
 
 We can complete the form with a submit button:
@@ -366,7 +366,7 @@ We can complete the form with a submit button:
     </div>
   </div>
 ```
-The disabled directive is binding to the newPlanForm.valid property in order to disable the button if the form is not valid.
+The disabled directive is binding to the newPlanForm.valid property, in order to disable the button if the form is not valid.
 
 Our form is created, however, nothing happens when we submit it because we have not binded it to a submit event. To see this working we are going to create a method in our component file:
 
@@ -403,7 +403,7 @@ BsDatepickerModule.forRoot(),
 TimepickerModule.forRoot(),
 ```
 
-The date picker also has a custom styling so let's also add that into the styles array in angular-cli.json
+The date picker also has a custom styling, so let's also add that into the styles array in angular-cli.json
 
 ```
 "../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css"
@@ -441,7 +441,7 @@ There is an extra component we'll be using. When the form gets submitted, we wan
 ```
 import { AlertModule } from 'ngx-bootstrap/alert';
 ```
-And add the markup above all form fields:
+Add the markup above all form fields:
 ```
   <alert type="success" dismissOnTimeout="3000" *ngIf="submitted">
     <strong>Yes!</strong> We have a plan.
@@ -504,16 +504,16 @@ resolvePlan() {
   });
   }
 ```
-And in our post service we'll pass this.resolvePlan().
+and in our post service we'll pass this.resolvePlan().
 
-Now we have our inputs created and acting in a reactive manor lets tidy them up a bit. Open up the my-plans.css file and insert the following styles:
+Now, we have our inputs created and acting in a reactive manner so let's tidy them up a bit. Open up the my-plans.css file and insert the following styles:
 ```
 .form-field {
   width: 70%;
 }
 ```
 
-This styling will only work on our component so we can easily defined specific styles and extract whole components nicely. If we wanted a global style then we can set it in the master style.css. Since our fixed navigation model hovers over our page, lets add some padding to the page in the global .css to account for that.
+This styling will only work on our component so we can easily define specific styles and extract whole components nicely. If we wanted a global style then we can set it in the master style.css. Since our fixed navigation model hovers over our page, let's add some padding to the page in the global .css to account for that.
 ```
 #page-container{
     padding-top:56px;
@@ -538,13 +538,13 @@ Or
 Yarn add global json-server
 ```
 
-Once done, grab the db.json file provided and place it in your projects route directory. To start the server open a new terminal window and enter 
+Once done, grab the db.json file provided and place it in your projects route directory. To start the server, open a new terminal window and enter 
 
 ```
 json-server --watch db.json
 ```
   
-Now if you head to http://localhost:3000 you should get a nice response listing all the mocked data responses available. JSON server is a great little tool if you’re co-developing with someone on the back end who may not know what responses you require. With this you can outline what you’re expecting and vice versa just by modifying the db.json file.
+Now, if you head to http://localhost:3000 you should get a nice response listing all the mocked data responses available. JSON server is a great little tool if you’re co-developing with someone on the back end who may not know what responses you require. With this, you can outline what you’re expecting and vice versa, just by modifying the db.json file.
 
 ### Create a service
 
@@ -556,9 +556,9 @@ Do it yourself section
 
 We also need to add the service to our module. Pop into app.module.ts and add a reference to PlansService under the final declaration type that we will cover, Providers.
 
-A service declared in the providers array is accessible globally, therefore if we had another module, we can access the service without defining it in that module. There is one exception to this but I’ll direct you to the reason why and where in further resources at the end.
+A service declared in the providers array is accessible globally, therefore, if we had another module, we can access the service without defining it in that module. There is one exception to this but I’ll direct you to the reason why and where in further resources at the end.
 
-Okay on to the service file, firstly we need to declare the components we require
+On to the service file, firstly, we need to declare the components we require
 
 ```
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
@@ -568,15 +568,15 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
 ```
 
-The HTTP items are self-explanatory but he RxJS stands for Reactive Extensions for Javascript and allows for the simplification of asynchronous calls through observables and subscriptions. It’s a fairly large library so to reduce the size of our application, we’re only including the parts we need as opposed to the full library.
+The HTTP items are self-explanatory but he RxJS stands for Reactive Extensions for Javascript and allows for the simplification of asynchronous calls through observables and subscriptions. It’s a fairly large library, so to reduce the size of our application, we’re only including the parts we need as opposed to the full library.
 
-Since were using HttpClient ect.. The module needs to know that we’re using them and they exist within the HTTPModules so import the following in your app.component.
+Since we're using HttpClientModule, the module needs to know that we’re using them and they exist within the HTTPModules so import the following in your app.component.
 
 ```
 import { HttpClientModule } from '@angular/common/http';
 ```
 
-Next we need to inject the HTTP Client into the service through the constructor, include the following.
+Next, we need to inject the HTTP Client into the service through the constructor, include the following.
 
 ```
 constructor(private _http: HttpClient) 
@@ -603,15 +603,15 @@ private handleError(err: HttpErrorResponse) {
 }
 ```
 
-Notice the reference to “any” at the moment. If you don’t know what format the data will be in at first, use any and then map to a class or interface at a later stage before finalising your service. 
+Notice the reference to “any” at the moment. If you don’t know what format the data will be in at first, use any and then map to a class or interface at a later stage, before finalising your service. 
 
-We can now set up a subscription to this function in any component that has access to the service so let’s do that. Open my-plans.component and inject the service through the constructor. 
+We can now set up a subscription to this function in any component that has access to the service, so let’s do that. Open my-plans.component and inject the service through the constructor. 
 
 ```
 (private _myPlansService : PlansService){
 ```
 
-Then we will make a call to get the plans during the components initialisation through a subscription. Within the onInit lifecycle hook add the following.
+Then, we will make a call to get the plans during the components initialisation through a subscription. Within the onInit lifecycle hook add the following.
 
 ```
 ngOnInit() {
@@ -627,9 +627,9 @@ ngOnInit() {
   }
 ````
 
-What will now happen is as the component initialises, an asynchronous call is made to the service which in turn makes a call to the API. It will continue to process through the component until a responses is passed back to the service and then back on to the component. If it’s valid the data will be passed into the response call back or if an error has occurred it will be passed into the error call-back.  
+What will now happen, is as the component initialises, an asynchronous call is made to the service which in turn makes a call to the API. It will continue to process through the component until a response is passed back to the service and then back on to the component. If it’s valid, the data will be passed into the response callback, or if an error has occurred it will be passed into the error callback.  
 
-To view what is returned lets quickly throw a for loop binding into the my-plans.html file and view the results.
+To view what is returned, let's quickly throw a for loop binding into the my-plans.html file and view the results.
 
 ```
   <div class="row "*ngFor="let plan of myPlans">
@@ -637,7 +637,7 @@ To view what is returned lets quickly throw a for loop binding into the my-plans
   </div>
 ```
 
-You should see a list of Ids’ on the my-plans page if the call has been successful or an error in the console if something has gone wrong. While we are here and we know data is being returned, change the for loop from above into the following:
+You should see a list of IDs on the my-plans page if the call has been successful, or an error in the console if something has gone wrong. While we are here and we know data is being returned, change the for loop from above into the following:
 
 ```
 <div class="row">
@@ -666,13 +666,13 @@ You should see a list of Ids’ on the my-plans page if the call has been succes
 
 We now have a Bootstrap styled dynamic table! Simple really.
  
-We do have one more API get call to create. In our reactive form we set up a dropdown field to display categories coming from an API endpoint and we need to create a method in our service to pull that information into our component. Let's try creating this new method getCategories, very similar to getPlans but the end point will be /categories instead of /plans.
+We do have one more API get call to create. In our reactive form, we set up a dropdown field to display categories coming from an API endpoint and we need to create a method in our service to pull that information into our component. Let's try creating this new method getCategories, very similar to getPlans but the end point will be /categories instead of /plans.
 
 ```
     Do it yourself section
 ```
 
-Then in our new-plan component we add the following code, inside ngOnInit:
+Then, in our new-plan component we add the following code, inside ngOnInit:
 
 ```
 this._myPlansService.getCategories()
@@ -705,7 +705,7 @@ postPlan(plan:any): Observable<any> {
 }
 ```
 
-So firstly we stringify the passed object to the function which will act as our body. We then specify what headers to pass back, in this case we are just passing back the content-type header. Finally we wrap the header in an options object, you can explore what else you can do here at a later date. Finally we send off the post call with the data and options.
+So firstly, we stringify the passed object to the function which will act as our body. We then specify what headers to pass back, in this case we are just passing back the content-type header. Next, we wrap the header in an options object, you can explore what else you can do here at a later date. Finally, we send off the post call with the data and options.
 
 We can now use the post call within the new-plan component we created earlier, head back into the newPlan component and within the onSubmit function add the following subscription:
 
@@ -724,16 +724,16 @@ this.plansService.postPlan(this.resolvePlan())
   );
 ```
 
-Hey presto our form can now submit data correctly. Ultimately up until this point we've been a bit naughty, we've been using the any type everywhere which completely removes the power of typescript. If we know what data is being returned from our calls we should define the responses as a class or an interface.
+Hey presto, our form can now submit data correctly. Ultimately, up until this point, we've been a bit naughty - we've been using the any type everywhere which completely removes the power of typescript. If we know what data is being returned from our calls, we should define the responses as a class or an interface.
 
 ###Interfaces
 
-Let’s create an Interface through the Angular CLI, since a plan could be used across the product lets create it in our shared directory under models.
+Let’s create an interface through the Angular CLI. Since a plan could be used across the product, let's create it in our shared directory under models.
 ```
 ng g i shared/models/IPlan 
 ```
 
-As a first pass we're going to define our response type as strings and numbers
+As a first pass, we're going to define our response type as strings and numbers
 ```
 export interface IPlan {
     name: string;
@@ -745,11 +745,11 @@ export interface IPlan {
 }
 ```
 
-Then to use this interface lets replace the returned type of getPlans to an Observable<IPlan[]> and variable myPlans in the my-plans component to IPlan[]. Run the app and head to the My Plans page to see what happens.
+Then to use this interface, let's replace the returned type of getPlans to an Observable<IPlan[]> and variable myPlans in the my-plans component to IPlan[]. Run the app and head to the My Plans page to see what happens.
 
-All our data loads the same so it's working the same; why bother? Well by defining our response types as interfaces we can get on the fly intellisense recommendations and compile time errors within the development environment. The typescript compiles down to JS so it does not affect the running of the application. 
+All our data loads the same so it's working the same; why bother? Well, by defining our response types as interfaces, we can get on the fly Intelisense recommendations and compile time errors within the development environment. The typescript compiles down to JS so it does not affect the running of the application. 
 
-However, this can throw up some issues. HTTP GET and POST responses can get past the interface definitions so objects could be missing fields. They cannot however be bypassed if they are mapped after the call. Mapping also allows us to split out fields if we require it.
+However, this can throw up some issues. HTTP GET and POST responses can get past the interface definitions so objects could be missing fields. They cannot however be bypassed, if they are mapped after the call. Mapping also allows us to split out fields if we require it.
 
 Let’s have a quick look at the GetPlans HTTP GET call again
 
@@ -769,7 +769,7 @@ return this._http.get<IPlan[]>("http://localhost:3000/" + 'plans')
     Also add "import 'rxjs/add/operator/map';" to our imports;
 ```
 
-With the map function we can pick out what fields to pass on to our subscriptions whereas the do function is great for logging or conditional setters. If we want to enforce all fields of the interface we can define it here.
+With the map function, we can pick out what fields to pass on to our subscriptions whereas the do function is great for logging or conditional setters. If we want to enforce all fields of the interface we can define it here.
 
 ```
 let result : IPlan;
@@ -784,11 +784,11 @@ result = {
 return result;
 ```
 
-This allows us the option to check each value of the response to make sure any items that are critical are not null and we can separate combined data items like date times into separate variables if we need too! 
+This allows us the option to check each value of the response, to make sure any items that are critical are not null and we can separate combined data items like datetimes into separate variables if we need to! 
 
 ### Components as Components
 
-So far we’ve looked at components in the context of pages, however, they are much more powerful than that. Let’s say we have a feature that needs to work in exactly the same way where ever it is used. In our case an error notification. We don’t want to duplicate the html and functionality on every page. 
+So far, we’ve looked at components in the context of pages, however, they are much more powerful than that. Let’s say we have a feature that needs to work in exactly the same way wherever it is used. In our case, an error notification. We don’t want to duplicate the html and functionality on every page. 
 
 Let’s create a new component called error-notification in the shared folder
 
@@ -796,7 +796,7 @@ Let’s create a new component called error-notification in the shared folder
 ng g c shared/components/error-notification –m shared
 ```
 
-Notice the new –m on the end, with this flag we can specify what module to define a component on its creation. Nice! This component will be exported so you will need to add it to the exports array manually.
+Notice the new –m on the end, with this flag we can specify what module to define a component on during its creation. Nice! This component will be exported so you will need to add it to the exports array manually.
 
 Let’s head into the error-notification.html file and add a nice alert warning…
 
@@ -806,7 +806,7 @@ Let’s head into the error-notification.html file and add a nice alert warning�
 </div>
 ```
 
-Job done. We now have a very quick error notification which will look and act in the same way where ever we use it. But how do we use it?
+Job done. We now have a very quick error notification which will look and act in the same way wherever we use it. But how do we use it?
 
 Have a look in the error-notifications component.ts file, you should see that in the component declaration we have 
 
@@ -814,13 +814,13 @@ Have a look in the error-notifications component.ts file, you should see that in
 selector: 'app-error-notification',
 ```
 
-This is essentially an ID to the component and with this ID we can insert the component into any other component that has access to the component through…
+This is essentially an ID to the component and with this ID, we can insert the component into any other component that has access to the component through…
 
 ```
 <app-error-notification></app-error-notification>
 ```   
 
-Let’s place this at the top of the new plans components html file and run the application to see what happens. You should see an alert bar at the top of the page, nice! You’ve just created you’re first modular component. Of course there’s much more we can do with this. Different pages may require a different error message, let’s explore this next. 
+Let’s place this at the top of the new plans components html file and run the application to see what happens. You should see an alert bar at the top of the page, nice! You’ve just created your first modular component. Of course, there’s much more we can do with this. Different pages may require a different error message, let’s explore this next. 
 
 ## Component Input
 
@@ -830,14 +830,14 @@ export class ErrorNotificationComponent implements OnInit {
        @Input() message : string = "";
 ```
 
-The component now knows to expect a string called message to be passed in, or if it’s not then it defaults to an empty string. We can now bind the value into our html using handlebars.
+The component now knows to expect a string called message to be passed in, or if it’s not, then it defaults to an empty string. We can now bind the value into our html using handlebars.
 ```
 <div class="alert alert-danger">
   Error: {{message}}
 </div>
 ```
 
-Finally we need to pass the input message into the component, we can bind this on each page that uses the component through its declaration.
+Finally, we need to pass the input message into the component. We can bind this on each page that uses the component through its declaration.
 
 ```
 <app-error-notification [message]="'An unknown error has occurred'"></app-error-notification>
@@ -849,7 +849,7 @@ We can now pass in custom messages to our component, nice!
 
 Outputs in child components are a little more complex and require an EventEmitter, we can consider them to be callbacks. To pass an output value back to a top level component requires some bindings and use of the EventEmitters .emit function.
 
-Firstly add an output declaration under the existing input declaration.
+Firstly, add an output declaration under the existing input declaration.
 
 ```
 @Output() dismissError : EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -875,14 +875,14 @@ Let’s add a button within the components html file that binds to this function
 
 ```
 
-At this point our component now has a functional output binder but we’ve not configured anywhere to use it yet. It should also be noted that the component will work without a top level binding so you can use it as you require it. For the next step we shall configure the new-plan page to bind to this callback.
+At this point, our component now has a functional output binder but we’ve not configured anywhere to use it yet. It should also be noted that the component will work without a top level binding so you can use it as you require it. For the next step, we shall configure the new-plan page to bind to this callback.
 
-Firstly lets add a Boolean to monitor if an error has occurred within the new-plan component. For now it will be set to true to show our component.
+Firstly, let's add a Boolean to monitor if an error has occurred within the new-plan component. For now, it will be set to true to show our component.
 ```
 hasErrorOccurred : boolean = true;
 ```
 
-Secondly in the html file lets wrap our component in an if binded div based on this new variable, the plan is to hide the error once it’s dismissed.
+Secondly, in the html file, let's wrap our component in an if binded div based on this new variable, the plan is to hide the error once it’s dismissed.
 
 ```
 <div *ngIf="hasErrorOccurred">
@@ -904,9 +904,9 @@ We can then bind this to our child component in the html file using () brackets.
 (dismissError)="onErrorDismissed()"
 ```
 
-We now have a working output callback, give the button a go.
+We now have a working output callback; give the button a go.
 
-The final note to make on this is that the emitter can pass back an object, we originally passed back a Boolean value of “true” but it’s currently not being used. We can easily configure the last two code snippets to work with the any object.
+The final note to make on this is that the emitter can pass back an object. We originally passed back a Boolean value of “true” but it’s currently not being used. We can easily configure the last two code snippets to work with the any object.
 
 ```
 (dismissError)="onErrorDismissed($event)"
@@ -919,13 +919,13 @@ onErrorDismissed(result : boolean) {
 }
 ```
 
-With this knowledge you can go forward and make completely dynamic components ultimately reducing duplications and creating consistent application behaviour.
+With this knowledge you can go forward and make completely dynamic components, ultimately reducing duplications and creating consistent application behaviour.
 
 ### Dynamic Configuration
 
 So far we’ve been hard coding our URLs into our services. What happens when we release the application and localhost is no longer our API location? Bring in the configuration files.
 
-Firstly let’s create some JSON files for our configurations, create a folder under src called config followed by three new files called…
+Firstly, let’s create some JSON files for our configurations, create a folder under src called config followed by three new files called…
 
 ```
 config.development.json
@@ -933,7 +933,7 @@ config.release.json
 env.json
 ```
 
-With this type of set up we can have different configurations for our development and production environments and can switch between them by changing a single parameter in the env.json file.
+With this type of set up, we can have different configurations for our development and production environments and can switch between them by changing a single parameter in the env.json file.
 
 In env.json add the following…
 
@@ -950,11 +950,11 @@ Then in config.development.json add in the db.json root…
 }
 ```
 
-This should also be mimicked in the config.production.json file too. Next we need to allow access to the new folder. In the angular-cli.json file under assets add in “config” to the array.
+This should also be mimicked in the config.production.json file too. Next, we need to allow access to the new folder. In the angular-cli.json file under assets add in “config” to the array.
 
-For the next step grab the provided app.config.ts file provided and place it under the app directory. Have a look through to see what it’s doing in terms of loading the env.json file and then how it goes on to load up the parameters defined in either of the config files.
+For the next step, grab the provided app.config.ts file provided and place it under the app directory. Have a look through to see what it’s doing in terms of loading the env.json file and then how it goes on to load up the parameters defined in either of the config files.
 
-Almost there, we now need to add the references to load the config on the loading of the application in the app.module.ts. Open it up and add in the reference to the app.config file we just added, a reference to the APP_INITIALIZER and a quick function to load the config.
+Almost there! We now need to add the references to load the config on the loading of the application in the app.module.ts. Open it up and add in the reference to the app.config file we just added, a reference to the APP_INITIALIZER and a quick function to load the config.
 
 ```
 import { APP_INITIALIZER } from '@angular/core';
@@ -965,14 +965,14 @@ function initConfig(config: AppConfig){
  }
 ```
 
-The app requires the APP_INITIALIZER declaration on any provider that requires a pre configuration routine. Finally we can add the AppConfig class and configure the loading in the provider array by adding the items shown below.
+The app requires the APP_INITIALIZER declaration on any provider that requires a preconfiguration routine. Finally, we can add the AppConfig class and configure the loading in the provider array by adding the items shown below.
 
 ```
 AppConfig,
     { provide: APP_INITIALIZER, useFactory: initConfig, deps: [AppConfig], multi: true }
 ```
 
-And with that we can now use our configurations anywhere in the app as if it was a service. Just add a reference in the constructor of a service that requires it, in our case our plans service and pull through the configuration by parameter name:
+With that, we can now use our configuration anywhere in the app as if it was a service. Just add a reference in the constructor of a service that requires it. In our case, our plans service and pull through the configuration by parameter name:
 
 ```
 constructor( private config : AppConfig){
@@ -983,7 +983,8 @@ onInit() {
 }
 ```
 
-Then wherever we have already hard coded "http://localhost:3000", just replace it with this.apiRoot. Next up testing.
+Then wherever we have already hard coded "http://localhost:3000", just replace it with this.apiRoot. 
+Next up, testing.
 
 
 ## Running the tests
@@ -1024,6 +1025,7 @@ Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c6
 ## Authors
 
 * **Raquel Plaza**
+* **Scott Alexander**
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
@@ -1033,9 +1035,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Acknowledgments
 
-* Hat tip to anyone who's code was used
-* Inspiration
-* etc
+
 
 
 
