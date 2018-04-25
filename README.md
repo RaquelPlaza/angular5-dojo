@@ -665,6 +665,10 @@ You should see a list of IDs on the my-plans page if the call has been successfu
 ```
 
 We now have a Bootstrap styled dynamic table! Simple really.
+
+```
+Extra! – See if you can make the category show. The console in Chrome dev tools shows it’s being returned from the API call but why is it not displaying?
+```
  
 We do have one more API get call to create. In our reactive form, we set up a dropdown field to display categories coming from an API endpoint and we need to create a method in our service to pull that information into our component. Let's try creating this new method getCategories, very similar to getPlans but the end point will be /categories instead of /plans.
 
