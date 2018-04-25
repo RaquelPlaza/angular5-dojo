@@ -1,4 +1,4 @@
-# Angular5-dojo
+﻿# Angular5-dojo
 A tutorial to get started with Angular 5 and explore its possibilities to put together front end applications
 
 ## Getting Started
@@ -917,6 +917,7 @@ And
 onErrorDismissed(result : boolean) {
   this.hasErrorOccurred =!result;
 }
+```
 
 With this knowledge you can go forward and make completely dynamic components ultimately reducing duplications and creating consistent application behaviour.
 
