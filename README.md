@@ -1,4 +1,4 @@
-# Angular5-dojo
+﻿# Angular5-dojo
 A tutorial to get started with Angular 5 and explore its possibilities to put together front end applications
 
 ## Getting Started
@@ -665,6 +665,10 @@ You should see a list of IDs on the my-plans page if the call has been successfu
 ```
 
 We now have a Bootstrap styled dynamic table! Simple really.
+
+```
+Extra! – See if you can make the category show. The console in Chrome dev tools shows it’s being returned from the API call but why is it not displaying?
+```
  
 We do have one more API get call to create. In our reactive form, we set up a dropdown field to display categories coming from an API endpoint and we need to create a method in our service to pull that information into our component. Let's try creating this new method getCategories, very similar to getPlans but the end point will be /categories instead of /plans.
 
@@ -917,6 +921,7 @@ And
 onErrorDismissed(result : boolean) {
   this.hasErrorOccurred =!result;
 }
+```
 
 With this knowledge you can go forward and make completely dynamic components, ultimately reducing duplications and creating consistent application behaviour.
 
@@ -986,53 +991,138 @@ Then wherever we have already hard coded "http://localhost:3000", just replace i
 Next up, testing.
 
 
-## Running the tests
+## Testing
 
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
+We will be focussing on Karma tests in this Dojo, you can also explore e2e tests after. To run tests type:
 
 ```
-Give an example
+yarn test
+Or 
+ng test
 ```
 
-### And coding style tests
+Yes, you already have some! This command will open up a new browser window and run through the tests specified in your .spec files. Unfortunately, the default tests now all fail. Boooo! We shall now identify some common issues in testing and try to fix the tests.
 
-Explain what these tests test and why
+### Routing in testing
+
+The spec files need to import the items that they will be using in order to run, one of the main items to import and is often forgotten is the routing module. Head into the app.component.spec file and update it to the following:
 
 ```
-Give an example
+import { TestBed, async } from '@angular/core/testing';
+import { AppComponent } from './app.component';
+import {RouterTestingModule} from '@angular/router/testing';
+
+describe('AppComponent', () => {
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule
+      ],
+      declarations: [
+        AppComponent,
+      ],
+      providers: [
+
+      ],
+    }).compileComponents();
+  }));
+  it('should create the app', async(() => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.debugElement.componentInstance;
+    expect(app).toBeTruthy();
+  }));
+  it(`should have as title 'app'`, async(() => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.debugElement.componentInstance;
+    expect(app.title).toEqual('Weekend Planner');
+  }));
+});
 ```
+
+Here we can see we have a configureTestingModule which works in a similar way to a normal module, importing and declaring the components we require to run a unit of code. The main import to take notice of here is the RouterTestingModule which allows us to run the tests without importing the full routing module. 
+
+Familarise yourself with the processes while you’re here, particularly what conditions you can check against and what you can check on within the component using Intelisense.
+
+### Mocks 
+
+Another important feature that is required within our tests is to be able to mock our services. Since these are unit tests, we don’t want to be relying on 101 other components that could also fail against any given test. Let’s update plans.service.spec file with the following: 
+
+```
+import { TestBed, getTestBed, inject } from '@angular/core/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+
+import { PlansService } from './plans.service';
+import {HttpClient, HttpClientModule, XhrFactory, } from '@angular/common/http';
+import { AppConfig} from '../../app.config';
+
+describe('PlansService', () => {
+
+  class MockConfig {
+    getConfig() {
+      return 'http://localhost:3000/';
+    }
+  }
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        HttpClientModule],
+      providers: [
+        PlansService,
+        {
+          provide: AppConfig, useClass: MockConfig
+        }
+        ]
+    });
+
+  });
+
+  it('should be created', inject([
+    PlansService], (service: PlansService) => {
+    expect(service).toBeTruthy();
+  }));
+});
+
+```
+
+Here we can see the MockConfig class that implements a return URL for the function getConfig(). We then register the AppConfig service in the providers, telling it to use the MockConfig class we just created. Now we have full control over what our service will receive when it injects the service during construction, isolating our tests to a unit of code!
+
+### Further Testing  
+
+There are multiple ways in which you can test you code, have a play with what’s available, fix the existing testing issues and for further ideas, have a look at the .spec files contained within the Dojo repository.  
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
+Type 
+
+```
+yarn build –prod
+```
+
+All your files will be built into a dist folder which you can push up to IIS or another hosting service as you feel fit. Easy! 
+
+For a deeper understanding of whats going on, you can explore Best Practises by Jim Cooper, referenced in Further Resources.
 
 ## Built With
 
 * Angular 5
 
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
- 
-
 ## Authors
 
-* **Raquel Plaza**
 * **Scott Alexander**
+* **Raquel Plaza**
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+## Further Resources
 
-## License
+These are some additional resources that I’ve found useful on projects:
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+Pipelines – Chapter 6 Data Binding and Pipes > Transforming Data with Pipes - https://app.pluralsight.com/library/courses/angular-2-getting-started-update/table-of-contents by Deborah Kurata 
 
-## Acknowledgments
+Interceptors - https://medium.com/@ryanchenkie_40935/angular-authentication-using-the-http-client-and-http-interceptors-2f9d1540eb8 by Ryan Chenkie
+
+Angular with Identity Server - https://www.scottbrady91.com/Angular by Scott Brady
+
+Best Practises - https://app.pluralsight.com/library/courses/best-practices-angular/table-of-contents by Jim Cooper
 
 
 
