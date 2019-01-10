@@ -542,6 +542,8 @@ Once done, grab the db.json file provided and place it in your projects route di
 
 ```
 json-server --watch db.json
+Or
+Yarn json-server --watch db.json
 ```
   
 Now, if you head to http://localhost:3000 you should get a nice response listing all the mocked data responses available. JSON server is a great little tool if you’re co-developing with someone on the back end who may not know what responses you require. With this, you can outline what you’re expecting and vice versa, just by modifying the db.json file.
